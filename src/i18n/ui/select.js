@@ -1,1 +1,60 @@
-export default { en: {}, zh: {}, ja: {} };
+// Menu copy: every key has English, Traditional Chinese and Japanese.
+export default {
+  "en": {
+    "select.heading": "Prepare your grimoire",
+    "select.mage": "Mage",
+    "select.map": "Map",
+    "select.difficulty": "Difficulty",
+    "select.spell": "Starting spell",
+    "select.boss": "Guardian",
+    "select.hp": "Enemy HP",
+    "select.speed": "Enemy speed",
+    "select.density": "Horde density",
+    "select.deploy": "Enter the surge",
+    "select.unlock.runs": "Play {target} runs · {current}/{target}",
+    "select.unlock.kills": "Defeat {target} enemies · {current}/{target}",
+    "select.unlock.level": "Reach level {target} · {current}/{target}",
+    "select.unlock.bossKill": "Defeat {target} bosses · {current}/{target}",
+    "select.unlock.bossMap": "Defeat the guardian of {map}",
+    "select.unlock.evolve": "Evolve {target} spells · {current}/{target}",
+    "select.unlock.difficulty": "Clear difficulty {n} first"
+  },
+  "zh": {
+    "select.heading": "準備你的魔法書",
+    "select.mage": "法師",
+    "select.map": "地圖",
+    "select.difficulty": "難度",
+    "select.spell": "初始法術",
+    "select.boss": "守關首領",
+    "select.hp": "敵人生命",
+    "select.speed": "敵人速度",
+    "select.density": "魔潮密度",
+    "select.deploy": "迎戰魔潮",
+    "select.unlock.runs": "遊玩 {target} 局 · {current}/{target}",
+    "select.unlock.kills": "擊敗 {target} 名敵人 · {current}/{target}",
+    "select.unlock.level": "達到等級 {target} · {current}/{target}",
+    "select.unlock.bossKill": "擊敗 {target} 位首領 · {current}/{target}",
+    "select.unlock.bossMap": "擊敗{map}的首領",
+    "select.unlock.evolve": "進化 {target} 次法術 · {current}/{target}",
+    "select.unlock.difficulty": "先通過難度 {n}"
+  },
+  "ja": {
+    "select.heading": "魔導書を準備しよう",
+    "select.mage": "魔法使い",
+    "select.map": "マップ",
+    "select.difficulty": "難易度",
+    "select.spell": "初期魔法",
+    "select.boss": "守護者",
+    "select.hp": "敵のHP",
+    "select.speed": "敵の速度",
+    "select.density": "魔潮の密度",
+    "select.deploy": "魔潮に挑む",
+    "select.unlock.runs": "{target}回プレイ · {current}/{target}",
+    "select.unlock.kills": "敵を{target}体撃破 · {current}/{target}",
+    "select.unlock.level": "レベル{target}到達 · {current}/{target}",
+    "select.unlock.bossKill": "ボスを{target}体撃破 · {current}/{target}",
+    "select.unlock.bossMap": "{map}の守護者を撃破",
+    "select.unlock.evolve": "魔法を{target}回進化 · {current}/{target}",
+    "select.unlock.difficulty": "先に難易度{n}をクリア"
+  }
+};
