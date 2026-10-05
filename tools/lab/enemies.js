@@ -32,6 +32,6 @@ async function show(){
   }
   for(const key of ['title','grid','mixed'])document.querySelector(`#${key}`).textContent=words[lang][key];document.querySelector('#note').textContent=words[lang][`${mode}Note`];for(const key of ['grid','mixed'])document.querySelector(`#${key}`).setAttribute('aria-pressed',String(mode===key));document.documentElement.lang=lang;
   scene.update();
-  await game.setScene(scene);if(previous){for(const child of previous.children??[])if(!geometries.includes(child.geometry))child.geometry?.destroy?.();}window.enemyLab={game,scene,stats,mode};
+  await game.setScene(scene);if(previous){for(const child of previous.objects)if(!geometries.includes(child.geometry))child.geometry?.destroy?.();previous.destroy();}window.enemyLab={game,scene,stats,mode};
 }
 for(const key of ['grid','mixed'])document.querySelector(`#${key}`).onclick=()=>{mode=key;show();};document.querySelector('#lang').value=lang;document.querySelector('#lang').onchange=e=>{lang=e.target.value;show();};document.addEventListener('contextmenu',e=>e.preventDefault());await show();game.start();window.ready=true;
