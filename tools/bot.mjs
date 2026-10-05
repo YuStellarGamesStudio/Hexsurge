@@ -72,7 +72,7 @@ export function simulate(opts) {
   return { run, result: getResult(run), timeline, levelTimes };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (typeof process !== 'undefined' && import.meta.url === `file://${process.argv[1]}`) {
   const [mageId = 'ignis', mapId = 'academy', difficulty = '1', seconds = '1100'] = process.argv.slice(2);
   const started = performance.now();
   const { result, timeline, levelTimes } = simulate({ mageId, mapId, difficulty: Number(difficulty), seed: 12345, seconds: Number(seconds) });
