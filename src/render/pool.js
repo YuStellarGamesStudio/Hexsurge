@@ -21,7 +21,7 @@ export class InstancePool {
     const i = this.used++;
     pos.set(x, y, z);
     if (tiltX) rot.setFromEuler(tiltX, rotY, 0); else rot.setFromEuler(0, rotY, 0);
-    scl.set(sx, sy, sz);
+    scl.set(Math.max(sx, 1e-3), Math.max(sy, 1e-3), Math.max(sz, 1e-3)); // zero scale makes the matrix non-invertible, which the lit shader rejects
     this.mesh.setMatrixAt(i, m4.compose(pos, rot, scl));
     this.mesh.setColorAt(i, r, g, b);
     return true;
