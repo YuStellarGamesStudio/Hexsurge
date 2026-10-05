@@ -5,3 +5,24 @@
 @media(max-width:699px){.menu-screen{padding:16px;gap:12px}.menu-header{gap:12px}.menu-header h1{font-size:22px}.title-screen{background:linear-gradient(180deg,#08091a77,#08091acc 52%,#08091af0)}.title-tools{gap:6px}.language-chips{gap:4px}.language-chips button{padding:8px;font-size:11px}.title-tools>.volume-anchor>.menu-button{padding:8px;font-size:12px}.title-main{width:100%;gap:16px;margin-top:24px;margin-bottom:20px}.hex-logo h1{font-size:42px}.logo-rune{font-size:52px}.logo-sub{font-size:17px}.title-tagline{font-size:13px}.title-start{min-height:54px;width:100%;max-width:330px}.title-nav{width:100%;gap:8px}.title-nav button{font-size:13px}.title-preview{position:static;width:100%;padding:14px;margin-top:auto}.title-preview h2{margin-bottom:8px}.preview-row{padding:6px 0;font-size:12px}.preview-row small{display:inline;margin-left:8px}.title-footer{font-size:10px;margin-top:0}.setup-section{padding:15px;gap:12px}.mage-grid{gap:8px}.mage-art{height:150px}.mage-info{padding:10px;gap:8px}.mage-info h3{font-size:18px}.mage-info p{font-size:12px}.mage-info strong{font-size:12px}.mage-info small{font-size:10px}.setup-footer{flex-direction:column;gap:10px;align-items:stretch}.setup-footer>span{text-align:center;font-size:11px}.setup-footer .primary{width:100%;min-height:48px}.setup-tabs button{padding:8px}.map-art{height:180px}.handbook-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px}.handbook-tabs button{max-width:none;padding:6px;font-size:11px}.handbook-card{padding:22px;gap:18px}.handbook-symbol{font-size:40px}.handbook-card h2{font-size:24px}.handbook-card>p{font-size:14px}.keycaps{gap:4px;flex-wrap:wrap}.keycaps kbd{padding:6px 9px;font-size:14px}.reaction-table>div{grid-template-columns:1fr;gap:5px;padding:7px 0}.reaction-table p{font-size:12px}.reaction-table strong{font-size:12px}.reaction-table{gap:4px}.board-controls{gap:10px;flex-wrap:wrap}.board-controls label{flex:1;min-width:0}.board-controls select{min-width:0;width:100%;font-size:13px;padding:8px}.board-controls p{max-width:none;flex-basis:100%;margin-left:0!important;font-size:11px}.board-panel{padding:6px}.board-table{font-size:11px}.board-table th{font-size:9px}.board-table td{height:43px}.board-kills,.board-level,.board-date{display:none}.board-rank{width:9%}.board-score{width:23%}.board-time{width:17%}.board-map{width:33%;font-size:10px}.board-result{width:18%;font-size:9px}.board-table tr{position:relative}.menu-volume{max-width:calc(100vw - 32px)}.menu-volume .volume-panel{min-width:240px}}
 @media(max-height:600px){.menu-screen{padding:12px;gap:8px}.title-main{gap:10px;margin:10px 0}.logo-rune{display:none}.hex-logo h1{margin:0;font-size:42px}.title-tagline{font-size:12px}.title-start{min-height:44px}.title-nav{gap:5px}.title-preview{bottom:45px}.setup-section{padding:12px;gap:7px}.mage-art{height:70px}.mage-info{padding:8px;gap:3px}.mage-info p{font-size:10px}.mage-info small{font-size:10px}.map-art{height:65px}.setup-section>p{font-size:11px}.difficulty-choice{padding:5px 12px}.difficulty-stats{gap:4px}.handbook-card{padding:16px 26px;gap:12px}.handbook-symbol{display:none}.handbook-card>p{font-size:14px}.reaction-table{gap:2px}.reaction-table>div{padding:5px 0}.board-table td{height:27px}.board-table th{height:27px}.board-controls p{font-size:11px}}
 .board-mobile-detail{display:none}@media(max-width:699px){.board-mobile-detail{display:block;font-size:9px;font-weight:400;margin-top:4px;color:#bcb2cc;overflow:hidden;text-overflow:ellipsis}.board-table td{height:46px}}
+
+/* Compact desktop heights keep card copy and difficulty details above the footer. */
+.map-art img{width:100%;height:100%;object-fit:cover;object-position:center 60%;border-radius:8px}
+.setup-columns{flex:1 1 0}
+.setup-section{gap:10px}
+.difficulty-stats{flex-shrink:0}
+.setup-footer{position:relative;background:#131126}
+@media(min-width:1024px) and (max-height:680px){
+  .setup-screen{padding:18px;gap:10px}
+  .setup-section{padding:14px;gap:8px}
+  .mage-art{height:80px}
+  .mage-info{padding:9px;gap:4px}
+  .mage-info strong{margin-top:3px}
+  .mage-info p{font-size:11px;line-height:1.35}
+  .mage-info small{font-size:10px}
+  .map-art{height:90px}
+  .setup-section>p{font-size:12px;line-height:1.4}
+  .difficulty-choice{padding:5px 12px}
+  .difficulty-stats{margin:0;gap:5px}
+  .difficulty-stats>div{font-size:11px}
+}

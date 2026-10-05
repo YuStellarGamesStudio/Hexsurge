@@ -38,9 +38,9 @@ export function create(app) {
     mage.append(grid, pager(magePage, Math.ceil(MAGES.length / 2), page => { magePage = page; refresh(); }));
     const map = el('section', { class: 'menu-panel setup-section', dataset: { kind: 'map' } }, el('h2', {}, app.t('select.map')));
     const m = MAPS[mapPage], open = unlocked('map', m.id);
-    map.append(el('div', { class: 'map-art', style: `--map-ground:${m.palette.ground};--map-accent:${m.palette.accent};--map-sky:${m.palette.sky[0]}` }, el('span', {}, '◇')),
+    map.append(el('div', { class: 'map-art' }, el('img', { src: `assets/illustrations/maps/${m.id}.svg`, alt: '' })),
       button(app.L(m.name), () => choose('map', m.id), { class: `menu-button map-choice ${open ? '' : 'locked'}`, 'aria-pressed': String(selected.map === m.id), 'aria-disabled': String(!open) }),
-      el('p', {}, app.L(m.desc)), el('p', { class: 'map-boss' }, `${app.t('select.boss')}: ${app.L(BOSS_BY_ID[m.boss].name)}`), !open ? el('p', { class: 'unlock-hint' }, hint(m.unlock)) : null,
+      el('p', {}, app.L(m.desc)), el('p', { class: 'map-boss' }, `${app.t('select.boss')}: ${app.L(BOSS_BY_ID[m.boss].name)}`), ...(!open ? [el('p', { class: 'unlock-hint' }, hint(m.unlock))] : []),
       pager(mapPage, MAPS.length, page => { mapPage = page; refresh(); }));
     const difficulty = el('section', { class: 'menu-panel setup-section', dataset: { kind: 'difficulty' } }, el('h2', {}, app.t('select.difficulty')));
     DIFFICULTY.forEach(d => { const open = d.id <= maxDifficulty(app.save.data) && unlocked('difficulty', d.id); difficulty.append(button(`${String(d.id).padStart(2, '0')} · ${app.t(`diff.${d.id}`)}`, () => choose('difficulty', d.id), { class: `menu-button difficulty-choice ${open ? '' : 'locked'}`, 'aria-pressed': String(selected.difficulty === d.id), 'aria-disabled': String(!open) })); });
