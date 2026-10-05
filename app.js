@@ -160,6 +160,7 @@ const app = {
     app.ui.results.hide();
     app.ui.hud.show(run);
     app.input.setEnabled(true);
+    app.screen = 'battle';
     app.audio.playMusic('endless');
     return true;
   },
