@@ -1,6 +1,6 @@
 // Boss bench: a strong reference build vs one boss tier with an invulnerable-but-measured bot.
 //   node tools/bosstest.mjs <mapId> <tier 0..2> [--seconds 240] [--difficulty 1] [--mage ignis]
-// Reports time-to-kill (target 60-120 s, guardrail 45-180 s), damage the bot WOULD have taken (god mode keeps it alive), and bullet/zone peaks.
+// Reports time-to-kill (target 60-120 s, guardrail 45-180 s), damage the bot WOULD have taken (hp is pinned very high so the fight always completes), and bullet/zone peaks.
 import { applyDebug } from '../src/core/debug.js';
 import { botMove } from './bot.mjs';
 import { createRun, step } from '../src/sim/run.js';
@@ -15,17 +15,19 @@ const REFERENCE = {
 export function benchBoss({ map, tier, seconds = 240, difficulty = 1, mage = 'ignis', seed = 777, build }) {
   const run = createRun({ mageId: mage, mapId: map, difficulty, seed });
   const b = build ?? REFERENCE[tier];
-  applyDebug(run, { ...b, god: true, time: [480, 840, 1080][tier], boss: tier });
+  applyDebug(run, { ...b, time: [480, 840, 1080][tier], boss: tier });
   const dt = 1 / 60;
   const start = run.t;
   const boss = run.bosses[0];
   let taken = 0, peakBullets = 0, peakZones = 0, enrageAt = null;
-  const origHp = run.player.hp;
+  const BIG = 1e6;
+  run.player.stats.maxHp = BIG; run.player.hp = BIG; run.player.shield = 0; run.player.shieldMax = 0;
   while (run.t - start < seconds && !boss.dead) {
     if (run.status === 'levelup') { run.status = 'running'; run.pendingLevels = 0; run.levelUp = null; }
-    run.player.hp = origHp; // god: restore each step, count what would have landed
+    run.player.hp = BIG; // effectively unkillable; the loss per step is what the fight WOULD have cost
     step(run, dt, botMove(run));
-    for (const e of run.events) { if (e.type === 'hurt') taken += e.amount; if (e.type === 'bossEnrage' && enrageAt === null) enrageAt = +(run.t - start).toFixed(1); }
+    taken += BIG - run.player.hp;
+    for (const e of run.events) { if (e.type === 'bossEnrage' && enrageAt === null) enrageAt = +(run.t - start).toFixed(1); }
     peakBullets = Math.max(peakBullets, run.eprojectiles.length);
     peakZones = Math.max(peakZones, run.zones.length);
     run.events.length = 0;

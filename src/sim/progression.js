@@ -79,7 +79,7 @@ export function gainXp(run, value) {
     run.pendingLevels++;
     healPlayer(run, p.stats.maxHp * PLAYER.levelUpHeal);
     run.stats.maxLevel = p.level;
-    run.hooks.addScore(run, SCORE.levelBonus);
+    run.hooks.addScore(run, SCORE.levelBonus, 'levels');
     onPlayerLevelUp(run);
   }
   if (p.level >= XP.maxLevel) p.xp = Math.min(p.xp, p.xpNext - 1);
@@ -158,7 +158,7 @@ export function applyChoice(run, choice) {
       break;
     case 'evolve': evolveSpell(run, spellOwned(run, choice.id)); break;
     case 'heal': healPlayer(run, run.player.stats.maxHp * 0.35); break;
-    case 'score': run.hooks.addScore(run, 400); break;
+    case 'score': run.hooks.addScore(run, 400, 'bonus'); break;
     default: throw new Error(`Unknown choice kind ${choice.kind}`);
   }
   emit(run, { type: 'upgrade', choice });

@@ -76,7 +76,7 @@ export function bossKilled(run, e) {
   const xp = BOSS_RULES.xpDrop[e.tier];
   // Spread the reward over several gems so the pickup moment feels like a payout.
   for (let i = 0; i < 6; i++) dropGem(run, e.x, e.z, xp / 6);
-  run.hooks.addScore(run, e.bossIndex === 2 ? SCORE.finalBossKill : SCORE.perBossKill);
+  run.hooks.addScore(run, e.bossIndex === 2 ? SCORE.finalBossKill : SCORE.perBossKill, 'bosses');
   run.zones = run.zones.filter((z) => z.owner !== 'boss');
   run.eprojectiles.length = 0;
   for (const m of run.enemies) if (m.summoner === e.id && !m.dead) { m.hp = 0; m.noDrop = true; m.dead = true; }

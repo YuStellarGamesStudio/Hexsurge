@@ -154,7 +154,7 @@ export function killEnemy(run, e, src = {}) {
   run.kills++;
   run.stats.kills++;
   const elite = e.elite;
-  run.hooks.addScore(run, elite ? SCORE.perEliteKill : SCORE.perKill);
+  run.hooks.addScore(run, elite ? SCORE.perEliteKill : SCORE.perKill, elite ? 'elites' : 'kills');
   emit(run, { type: 'kill', x: e.x, z: e.z, id: e.id, defId: e.def.id, elite, boss: !!e.boss, element: src.element, r: e.r });
   const xp = e.def.xp * (e.xpMult ?? 1);
   if (xp > 0 && !e.noDrop) dropGem(run, e.x, e.z, xp);

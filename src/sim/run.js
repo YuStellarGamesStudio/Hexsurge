@@ -36,7 +36,7 @@ export function createRun(opts) {
     obstacles: [], bosses: [], boss: null, bossSchedule: { next: 0, warned: false }, bossesKilled: 0,
     grid: new Grid(), director: { credit: 0, eliteDone: false }, env: { pushX: 0, pushZ: 0, speedMult: 1, gust: null },
     hazardState: map.hazards.map(() => ({})),
-    events: [], nextId: 1, rawScore: 0, score: 0, kills: 0, levelUp: null, pendingLevels: 0, chainDepth: 0,
+    events: [], nextId: 1, rawScore: 0, scoreParts: { time: 0, kills: 0, elites: 0, bosses: 0, levels: 0, bonus: 0 }, score: 0, kills: 0, levelUp: null, pendingLevels: 0, chainDepth: 0,
     stats: { kills: 0, damage: 0, damageTaken: 0, bossKills: 0, maxLevel: 1, evolutions: 0 },
     seen: { enemies: new Set(), spells: new Set(), evolutions: new Set(), bosses: new Set() },
     hooks: null,
@@ -54,8 +54,11 @@ export function createRun(opts) {
   return run;
 }
 
-export function addScore(run, amount) {
-  run.rawScore += amount * (run.endless ? TIMELINE.endlessScoreMult : 1);
+/** cat: 'time' | 'kills' | 'elites' | 'bosses' | 'levels' | 'bonus' (kept for the results breakdown). */
+export function addScore(run, amount, cat = 'bonus') {
+  const gained = amount * (run.endless ? TIMELINE.endlessScoreMult : 1);
+  run.rawScore += gained;
+  run.scoreParts[cat] += gained;
   run.score = finalScore(run);
 }
 
@@ -68,7 +71,7 @@ export function finalScore(run) {
 export function step(run, dt, input) {
   if (run.status !== 'running') return;
   run.t += dt;
-  addScore(run, SCORE.perSecond * dt);
+  addScore(run, SCORE.perSecond * dt, 'time');
 
   updateHazards(run, dt);
 
@@ -129,6 +132,7 @@ export function getResult(run) {
     evolutions: run.stats.evolutions, won: run.won, endless: run.endless, reason: run.endReason,
     spells: run.spells.map((s) => ({ id: s.def.id, level: s.level, evolved: s.evolved })),
     passives: { ...run.passives }, damage: Math.round(run.stats.damage),
+    scoreParts: { ...run.scoreParts }, scoreMultiplier: SCORE.difficultyScale[run.difficulty.id - 1],
   };
 }
 

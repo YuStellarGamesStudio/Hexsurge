@@ -50,6 +50,8 @@ export const PLAYER = Object.freeze({
   baseCritChance: 0.05,
   baseCritMult: 1.6,
   baseXpGain: 1,
+  baseRegen: 0.35,           // hp per second (no heal drops exist, so a gentle trickle keeps long runs fair)
+  levelUpHeal: 0.12,         // fraction of max hp restored on each level-up
 });
 
 export const XP = Object.freeze({
