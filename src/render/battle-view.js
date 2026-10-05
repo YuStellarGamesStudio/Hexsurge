@@ -270,8 +270,11 @@ export class BattleView {
       const v = a.vfx;
       // Permanent auras cover a large part of the screen: keep their fill barely visible so enemies and terrain stay readable.
       const permanent = !Number.isFinite(a.maxLife);
-      zoneBatch(v?.fillColor ?? color, 'area', 'disc', v?.fillOpacity ?? (permanent ? 0.07 : 0.22)).push(a.x, 0.06, a.z, r * Math.max(0.2, fade), 1, r * Math.max(0.2, fade), 0);
-      zoneBatch(color, 'ring', 'ring', v?.ringOpacity ?? (permanent ? 0.55 : 0.75)).push(a.x, 0.09, a.z, r, 1, r, t * 0.5);
+      const fillOpacity = v?.fillOpacity ?? (permanent ? 0.07 : 0.22);
+      const ringOpacity = v?.ringOpacity ?? (permanent ? 0.55 : 0.75);
+      // Opacity 0 means "this spell draws its own visuals": submit nothing (a zero-alpha pool material still renders solid).
+      if (fillOpacity > 0) zoneBatch(v?.fillColor ?? color, 'area', 'disc', fillOpacity).push(a.x, 0.06, a.z, r * Math.max(0.2, fade), 1, r * Math.max(0.2, fade), 0);
+      if (ringOpacity > 0) zoneBatch(color, 'ring', 'ring', ringOpacity).push(a.x, 0.09, a.z, r, 1, r, t * 0.5);
       // Optional opaque, non-emissive core (e.g. a black hole's dark centre): vfx.coreColor + vfx.coreRadius.
       if (v?.coreColor) {
         const cr = (v.coreRadius ?? a.r * 0.3) * 2 * Math.max(0.2, fade);
