@@ -1,7 +1,12 @@
 // Void damage is unamplified here; erosion is a shared team bonus in combat.js.
 // Entropy Aura trades focused damage for continuous control; its broad reach keeps kiting viable.
 const T = (zh, en, ja) => Object.freeze({ zh, en, ja });
-const vfx = (shape, size, glow = 1.6) => ({ shape, color: '#ff7ad9', size, glow, trail: 'void' });
+const vfx = (shape, size, glow = 1.6) => ({
+  shape, color: '#ff7ad9', size, glow, trail: 'void',
+  fillColor: '#24102e', fillOpacity: 0.1, ringOpacity: 0.4,
+  ...(shape === 'void_rift' || shape === 'void_singularity'
+    ? { coreColor: '#170a22', coreRadius: size * 0.6 } : {}),
+});
 export const VOID_SPELLS = [
   {
     id: 'void_rift', element: 'void', type: 'area',
