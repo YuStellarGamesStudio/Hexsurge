@@ -1,6 +1,6 @@
-// Results use the recorded snapshot for the final build and the live run only for score accounting.
+// Results present the recorded score ledger and final build without reconstructing rewards.
 import { el, makeScreen } from './dom.js';
-import { SCORE, TIMELINE } from '../data/config.js';
+import { TIMELINE } from '../data/config.js';
 import { SPELL_BY_ID } from '../data/spells/index.js';
 import { PASSIVE_BY_ID } from '../data/passives.js';
 import { MAGE_BY_ID } from '../data/mages.js';
@@ -16,22 +16,17 @@ export function create(app) {
     return el('span', { class: 'result-icon', title: name }, img, glyph);
   }
   function render() {
-    const { result: r, summary = {}, run } = current;
+    const { result: r, summary = {} } = current;
     const mage = MAGE_BY_ID[r.mageId], map = MAP_BY_ID[r.mapId];
     s.el.classList.toggle('is-victory', r.won);
     const number = (v) => Math.round(v).toLocaleString();
-    const header = el('header', { class: 'results-header' }, el('div', { class: 'results-crest', 'aria-hidden': 'true' }, r.won ? '✧' : '◇'),
+    const header = el('header', { class: 'results-header' }, el('div', { class: 'results-crest' }, illustration('mages', r.mageId, app.L(mage.name))),
       el('div', {}, el('span', { class: 'results-eyebrow' }, app.t(r.won ? 'results.victoryEyebrow' : 'results.defeatEyebrow')), el('h1', {}, app.t(r.won ? 'results.victory' : 'results.defeat')), el('p', {}, `${app.L(mage.name)} · ${app.L(map.name)} · ${app.t(`diff.${r.difficulty}`)}`)));
     const stats = el('div', { class: 'results-stats' });
     for (const [key, value] of [['time', clock(r.time)], ['kills', number(r.kills)], ['level', r.level], ['bosses', r.bossKills], ['evolutions', r.evolutions]]) stats.append(el('div', {}, el('span', {}, app.t(`results.${key}`)), el('strong', {}, value)));
-    const mult = SCORE.difficultyScale[r.difficulty - 1];
-    const survival = r.time * SCORE.perSecond + (r.endless ? Math.max(0, r.time - run.endlessStart) * SCORE.perSecond * (TIMELINE.endlessScoreMult - 1) : 0);
-    const killBase = r.kills * SCORE.perKill, bossBase = r.bossKills * SCORE.perBossKill + (r.won ? SCORE.finalBossKill - SCORE.perBossKill : 0), levelBase = (r.level - 1) * SCORE.levelBonus;
-    // Elite, fallback-card and post-victory rewards are not individually tracked by the sim.
-    // Keep their residual explicit rather than inventing a breakdown or losing points.
-    const extra = run.rawScore - survival - killBase - bossBase - levelBase;
+    const mult = r.scoreMultiplier;
     const breakdown = el('div', { class: 'score-breakdown' });
-    for (const [key, value] of [['survivalScore', survival], ['killScore', killBase], ['bossScore', bossBase], ['levelScore', levelBase], ['extraScore', extra]]) if (key !== 'extraScore' || Math.abs(value) >= .5) breakdown.append(el('div', {}, el('span', {}, app.t(`results.${key}`)), el('strong', {}, number(value))));
+    for (const [key, part] of [['survivalScore', 'time'], ['killScore', 'kills'], ['eliteScore', 'elites'], ['bossScore', 'bosses'], ['levelScore', 'levels'], ['bonusScore', 'bonus']]) breakdown.append(el('div', {}, el('span', {}, app.t(`results.${key}`)), el('strong', {}, number(r.scoreParts[part]))));
     breakdown.append(el('div', { class: 'score-multiplier' }, el('span', {}, app.t('results.multiplier')), el('strong', {}, `×${mult}`)));
     const scorePanel = el('section', { class: 'results-score result-panel' }, el('h2', {}, app.t('results.score')), el('div', { class: 'results-score-number' }, number(r.score)), breakdown);
     if (summary.rank) {
