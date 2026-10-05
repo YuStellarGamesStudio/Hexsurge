@@ -45,10 +45,10 @@ export function pace(difficulty = 1) {
   const rows = [];
   for (const mage of MAGES) {
     for (const mapId of ['academy', 'abyss']) {
-      const { levelTimes, result, timeline } = simulate({ mageId: mage.id, mapId, difficulty, seed: 5, seconds: 1100, sampleEvery: 30 });
+      const { levelTimes, evoTimes, result, timeline } = simulate({ mageId: mage.id, mapId, difficulty, seed: 5, seconds: 1100, sampleEvery: 30 });
       const at = (t) => levelTimes.filter((x) => x <= t).length + 1;
       const peakAlive = Math.max(...timeline.map((r) => r.alive));
-      rows.push({ mage: mage.id, map: mapId, firstLvl: Math.round(levelTimes[0]), l300: at(300), l600: at(600), l1080: at(1080), evo: result.evolutions, bossKills: result.bossKills, peakAlive, end: result.reason ?? 'alive', t: Math.round(result.time) });
+      rows.push({ mage: mage.id, map: mapId, firstLvl: Math.round(levelTimes[0]), l300: at(300), l600: at(600), l1080: at(1080), firstEvo: evoTimes[0] ? Math.round(evoTimes[0]) : '-', evo: result.evolutions, bossKills: result.bossKills, peakAlive, end: result.reason ?? 'alive', t: Math.round(result.time) });
     }
   }
   return rows;

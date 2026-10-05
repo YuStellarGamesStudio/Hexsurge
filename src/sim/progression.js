@@ -10,7 +10,8 @@ import { HANDLERS, makeCtx } from './spells/index.js';
 import { ELEMENTS } from './combat.js';
 
 export function xpForLevel(level) {
-  return Math.round(XP.firstLevel * XP.growth ** (level - 1) + XP.linear * (level - 1));
+  const base = XP.firstLevel * XP.growth ** (level - 1) + XP.linear * (level - 1);
+  return Math.round(base * (XP.openingFactors[level - 1] ?? 1));
 }
 
 export function addSpell(run, id) {

@@ -198,7 +198,7 @@ export class BattleView {
       if (e.elite) { r *= 1.4; g *= 1.15; b *= 0.55; }
       if (e.hitFlash > 0) { const f = 1 + e.hitFlash * 8; r *= f; g *= f; b *= f; }
       pool.push(e.x, bob, e.z, s * punch, s / punch, s * punch, -e.facing, r, g, b);
-      this.shadowPool.push(e.x, 0.04, e.z, e.r * 2.2 * s * (fly ? 0.7 : 1), 1, e.r * 2.2 * s * (fly ? 0.7 : 1));
+      this.shadowPool.push(e.x, 0.04, e.z, e.r * 1.7 * s * (fly ? 0.7 : 1), 1, e.r * 1.7 * s * (fly ? 0.7 : 1));
     }
     for (const e of this.enemyPools.values()) e.pool.end();
     const p = run.player;
@@ -294,7 +294,9 @@ export class BattleView {
         zoneBatch(color, 'warn', 'disc', 0.28).push(z.x, 0.07, z.z, r * k, 1, r * k, 0);
       } else {
         const pulse = 0.95 + Math.sin(t * 8) * 0.05;
-        zoneBatch(color, 'area', 'disc', z.oneShot ? 0.45 : 0.3).push(z.x, 0.08, z.z, r * pulse, 1, r * pulse, 0);
+        // Void rifts draw a dark disc so the map module's swirling core stays visible; the ring below keeps the pull radius readable.
+        const discColor = z.kind === 'void_rift' ? '#27163f' : color;
+        zoneBatch(discColor, 'area', 'disc', z.kind === 'void_rift' ? 0.22 : z.oneShot ? 0.45 : 0.3).push(z.x, 0.08, z.z, r * pulse, 1, r * pulse, 0);
         zoneBatch(color, 'ring', 'ring', 0.75).push(z.x, 0.1, z.z, r, 1, r, t);
       }
     }
@@ -380,5 +382,5 @@ export class BattleView {
   }
 }
 
-function zoneMaterialDark() { return zoneMaterial('#05030f', 0, 0.38); }
+function zoneMaterialDark() { return zoneMaterial('#05030f', 0, 0.3); }
 export { XP, ARENA };

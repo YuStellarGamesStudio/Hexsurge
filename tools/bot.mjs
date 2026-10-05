@@ -39,7 +39,8 @@ export function botPick(run, strategy = 'focus') {
   if (strategy === 'random') return Math.floor(run.rng() * cs.length);
   // 'focus' models a competent player: take evolutions, chase the passive a nearly-maxed spell needs,
   // concentrate upgrades on a few spells (cap 4 by default), then fall back to generic power passives.
-  const maxSpells = strategy === 'wide' ? 6 : 4;
+  // Before the first evolution a focused player commits to one or two spells; afterwards widens to four.
+  const maxSpells = strategy === 'wide' ? 6 : run.stats.evolutions ? 4 : 2;
   const wanted = new Set();
   for (const s of run.spells) {
     const evo = s.def.evolution;
@@ -50,7 +51,7 @@ export function botPick(run, strategy = 'focus') {
     switch (c.kind) {
       case 'evolve': return 1000;
       case 'passive_new': case 'passive_up': return (wanted.has(c.id) ? 90 : generic[c.id] ?? 20) + (c.kind === 'passive_up' ? 3 : 0);
-      case 'spell_up': return 60 + c.level * 2;
+      case 'spell_up': return 60 + c.level * (run.stats.evolutions ? 2 : 8);
       case 'spell_new': return run.spells.length < maxSpells ? 55 : 5;
       case 'heal': return run.player.hp < run.player.stats.maxHp * 0.6 ? 70 : 5;
       default: return 1;
@@ -73,6 +74,8 @@ export function simulate(opts) {
   const sampleEvery = opts.sampleEvery ?? 60;
   let nextSample = 0;
   const levelTimes = [];
+  const evoTimes = [];
+  let lastEvo = 0;
   let lastLevel = 1;
   let guard = 0;
   while (run.t < limit && run.status !== 'dead') {
@@ -80,6 +83,7 @@ export function simulate(opts) {
     if (run.status === 'won') break;
     step(run, dt, botMove(run));
     run.events.length = 0;
+    if (run.stats.evolutions !== lastEvo) { for (let k = lastEvo; k < run.stats.evolutions; k++) evoTimes.push(run.t); lastEvo = run.stats.evolutions; }
     if (run.player.level !== lastLevel) { for (let l = lastLevel; l < run.player.level; l++) levelTimes.push(run.t); lastLevel = run.player.level; }
     if (run.t >= nextSample) {
       nextSample += sampleEvery;
@@ -87,7 +91,7 @@ export function simulate(opts) {
     }
     if (++guard > 400000) break;
   }
-  return { run, result: getResult(run), timeline, levelTimes };
+  return { run, result: getResult(run), timeline, levelTimes, evoTimes };
 }
 
 if (typeof process !== 'undefined' && import.meta.url === `file://${process.argv[1]}`) {

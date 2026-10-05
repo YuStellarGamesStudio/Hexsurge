@@ -55,9 +55,10 @@ export const PLAYER = Object.freeze({
 });
 
 export const XP = Object.freeze({
-  firstLevel: 45,            // xp needed for level 1 -> 2
-  growth: 1.11,             // exponential growth per level
+  firstLevel: 60,            // xp needed for level 1 -> 2
+  growth: 1.105,             // exponential growth per level
   linear: 0,                 // flat add per level
+  openingFactors: [0.6, 0.8], // first level-ups are cheaper so the feedback loop starts inside 30-45 s for every mage
   gemValues: [1, 3, 8, 20, 60], // tiers; renderer colours by tier
   mergeThreshold: 120,       // merge gems when this many exist
   maxLevel: 60,
