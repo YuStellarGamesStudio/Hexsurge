@@ -34,7 +34,7 @@ export function create(app) {
     for (const b of tabs.children) b.setAttribute('aria-expanded', String(b === e.currentTarget && next !== ''));
   } }));
   s.el.append(vignette, top, status, build, bossBar, warning, popover, tabs, xp);
-  let buildKey = '', heartKey = '', warningTime = 0, hurtTime = 0, lastRun = null;
+  let buildKey = '', heartKey = '', warningKey = '', warningTime = 0, hurtTime = 0, lastRun = null;
   const clock = (t) => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
   function icon(folder, id, element, name) {
     const fallback = el('span', { class: 'build-glyph', 'aria-hidden': 'true' }, '✦');
@@ -50,18 +50,20 @@ export function create(app) {
     const remaining = Math.max(0, due - run.t);
     countdown.hidden = !Number.isFinite(remaining) || remaining > TIMELINE.bossCountdownShow;
     countdown.textContent = app.t('hud.bossCountdown', { time: clock(remaining) });
-    const p = run.player, halfHearts = Math.ceil(p.hp / PLAYER.heartHp * 2), total = Math.ceil(p.stats.maxHp / PLAYER.heartHp);
+    const p = run.player, maxHp = Number.isFinite(p.stats.maxHp) ? p.stats.maxHp : PLAYER.baseHp;
+    const hp = Number.isFinite(p.hp) ? Math.max(0, Math.min(p.hp, maxHp)) : 0;
+    const halfHearts = Math.ceil(hp / PLAYER.heartHp * 2), total = Math.ceil(maxHp / PLAYER.heartHp);
     const hk = `${total}:${halfHearts}`;
     if (hk !== heartKey) {
       heartKey = hk;
       hearts.replaceChildren(...Array.from({ length: total }, (_, i) => el('span', { class: `hud-heart ${halfHearts >= i * 2 + 2 ? 'full' : halfHearts > i * 2 ? 'half' : 'empty'}`, 'aria-hidden': 'true' }, '♥')));
     }
-    health.textContent = `${Math.ceil(p.hp)} / ${Math.round(p.stats.maxHp)}`;
-    hearts.setAttribute('aria-label', app.t('hud.health', { hp: Math.ceil(p.hp), max: Math.round(p.stats.maxHp) }));
+    health.textContent = `${Math.ceil(hp)} / ${Math.round(maxHp)}`;
+    hearts.setAttribute('aria-label', app.t('hud.health', { hp: Math.ceil(hp), max: Math.round(maxHp) }));
     shield.hidden = !p.shieldMax;
     shieldFill.style.width = `${Math.min(100, p.shield / (p.shieldMax || 1) * 100)}%`;
     shield.title = app.t('hud.shield', { n: Math.ceil(p.shield) });
-    s.el.classList.toggle('low-health', p.hp / p.stats.maxHp <= .25);
+    s.el.classList.toggle('low-health', hp / maxHp <= .25);
     kills.textContent = run.stats.kills.toLocaleString(); score.textContent = Math.floor(run.score).toLocaleString();
     level.textContent = app.t('card.level', { n: p.level });
     xpFill.style.width = `${Math.min(100, p.xp / p.xpNext * 100)}%`;
@@ -87,10 +89,10 @@ export function create(app) {
   };
   s.onEvent = (e) => {
     if (e.type === 'hurt') hurtTime = .35;
-    if (e.type === 'bossWarning' || e.type === 'bossSpawn') { warning.textContent = app.t(e.type === 'bossSpawn' ? 'hud.bossArrived' : 'hud.bossIncoming'); warningTime = e.type === 'bossWarning' ? TIMELINE.bossWarning : 2.5; }
+    if (e.type === 'bossWarning' || e.type === 'bossSpawn') { warningKey = e.type === 'bossSpawn' ? 'hud.bossArrived' : 'hud.bossIncoming'; warning.textContent = app.t(warningKey); warningTime = e.type === 'bossWarning' ? TIMELINE.bossWarning : 2.5; }
   };
   const show = s.show;
   s.show = (run) => { show(); applyI18n(s.el); buildKey = ''; heartKey = ''; warningTime = hurtTime = 0; popover.hidden = true; s.el.dataset.panel = ''; s.update(run); };
-  s.refresh = () => { if (lastRun) { buildKey = ''; s.update(lastRun); } volume.refresh(); };
+  s.refresh = () => { if (lastRun) { buildKey = ''; s.update(lastRun); } if (warningKey) warning.textContent = app.t(warningKey); volume.refresh(); };
   return s;
 }
