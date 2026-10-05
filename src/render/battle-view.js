@@ -256,7 +256,7 @@ export class BattleView {
     const zoneBatch = (color, kind, shape, opacity) => {
       const key = `${kind}|${shape}|${color}|${opacity}`;
       let p = this.zoneDisc.get(key);
-      if (!p) { p = new InstancePool(this.scene, shapeGeometry(shape), zoneMaterial(color, kind === 'warn' ? 1.6 : 1.1, opacity), 40); this.zoneDisc.set(key, p); }
+      if (!p) { p = new InstancePool(this.scene, shapeGeometry(shape), zoneMaterial(color, kind === 'warn' ? 1.6 : kind === 'core' ? 0 : 1.1, opacity), 40); this.zoneDisc.set(key, p); }
       return p;
     };
     // Persistent spell areas: translucent disc + bright ring so enemies stay readable on top.
@@ -264,10 +264,15 @@ export class BattleView {
       const color = a.vfx?.color ?? ELEMENT_COLORS[a.element] ?? '#ffffff';
       const fade = Math.min(1, a.life / 0.6, (a.maxLife - a.life) / 0.2 + 0.2);
       const r = a.r * 2 * (a.warm > 0 ? 0.9 : 1) * (0.97 + Math.sin(t * 4 + a.id) * 0.03);
-      zoneBatch(color, 'area', 'disc', 0.22).push(a.x, 0.06, a.z, r * Math.max(0.2, fade), 1, r * Math.max(0.2, fade), 0);
-      zoneBatch(color, 'ring', 'ring', 0.75).push(a.x, 0.09, a.z, r, 1, r, t * 0.5);
-      // A spell may add its own emblem (vfx.shape other than disc/ring) at vfx.size, independent of the effect radius.
       const v = a.vfx;
+      zoneBatch(v?.fillColor ?? color, 'area', 'disc', v?.fillOpacity ?? 0.22).push(a.x, 0.06, a.z, r * Math.max(0.2, fade), 1, r * Math.max(0.2, fade), 0);
+      zoneBatch(color, 'ring', 'ring', v?.ringOpacity ?? 0.75).push(a.x, 0.09, a.z, r, 1, r, t * 0.5);
+      // Optional opaque, non-emissive core (e.g. a black hole's dark centre): vfx.coreColor + vfx.coreRadius.
+      if (v?.coreColor) {
+        const cr = (v.coreRadius ?? a.r * 0.3) * 2 * Math.max(0.2, fade);
+        zoneBatch(v.coreColor, 'core', 'disc', 0.95).push(a.x, 0.14, a.z, cr, 1, cr, 0);
+      }
+      // A spell may add its own emblem (vfx.shape other than disc/ring) at vfx.size, independent of the effect radius.
       if (v && v.shape && v.shape !== 'disc' && v.shape !== 'ring') {
         const size = (v.size ?? a.r) * 2 * Math.max(0.2, fade);
         const flat = FLAT_SHAPES.has(v.shape);

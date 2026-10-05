@@ -47,7 +47,9 @@ const app = {
   async showTitle() {
     app.endBattle();
     app.ui.hud.hide(); app.ui.pause.hide(); app.ui.levelup.hide();
-    if (!app.titleView) app.titleView = createTitleView(app.game, { reducedMotion: save.data.settings.reducedMotion });
+    const motion = !!save.data.settings.reducedMotion;
+    if (app.titleView && app.titleMotion !== motion) { app.titleView.dispose(); app.titleView = null; }
+    if (!app.titleView) { app.titleView = createTitleView(app.game, { reducedMotion: motion }); app.titleMotion = motion; }
     await app.titleView.init();
     app.titleView.scene.onTick = (dt) => app.titleView.sync(dt);
     app.go('title');
