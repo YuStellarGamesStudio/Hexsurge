@@ -7,21 +7,8 @@ export function buildEnemyGeometry(def) {
   const dark = '#262332', bone = '#ded3b8', id = def.id;
   const ball = (x,y,z,sx,sy,sz,c=body,detail=0) => b.ico(1,detail,c,{pos:[x,y,z],scale:[sx,sy,sz]});
   const box = (x,y,z,w,h,d,c=body,rot=[0,0,0]) => b.box(w,h,d,c,{pos:[x,y,z],rot});
-  const frustum = (x,y,z,r,h,c,rot,top,segments) => {
-    const start=b.positions.length;
-    b.cone(r,h,segments,c,{pos:[x,y,z],rot},.12,top);
-    // geo.js winds frustum top caps inward; correct only those caps locally.
-    if(top>0) for(let i=0;i<segments;i++) {
-      const offset=start+(i*4+2)*9;
-      for(let axis=0;axis<3;axis++) {
-        const value=b.positions[offset+3+axis];
-        b.positions[offset+3+axis]=b.positions[offset+6+axis];
-        b.positions[offset+6+axis]=value;
-      }
-    }
-  };
-  const cone = (x,y,z,r,h,c=accent,rot=[0,0,0],top=0) => frustum(x,y,z,r,h,c,rot,top,5);
-  const cylinder = (x,y,z,r,h,segments,c,rot=[0,0,0]) => frustum(x,y,z,r,h,c,rot,r,segments);
+  const cone = (x,y,z,r,h,c=accent,rot=[0,0,0],top=0) => b.cone(r,h,5,c,{pos:[x,y,z],rot},.12,top);
+  const cylinder = (x,y,z,r,h,segments,c,rot=[0,0,0]) => b.cylinder(r,h,segments,c,{pos:[x,y,z],rot});
   const eyes = (x,y,z=.2) => {
     for(const s of [-1,1]) { box(x,y,s*z,.07,.17,.17,dark); box(x+.045,y+.015,s*z,.04,.075,.09,accent); }
   };
