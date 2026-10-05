@@ -268,8 +268,10 @@ export class BattleView {
       const fade = Math.min(1, fadeOut, fadeIn);
       const r = a.r * 2 * (a.warm > 0 ? 0.9 : 1) * (0.97 + Math.sin(t * 4 + a.id) * 0.03);
       const v = a.vfx;
-      zoneBatch(v?.fillColor ?? color, 'area', 'disc', v?.fillOpacity ?? 0.22).push(a.x, 0.06, a.z, r * Math.max(0.2, fade), 1, r * Math.max(0.2, fade), 0);
-      zoneBatch(color, 'ring', 'ring', v?.ringOpacity ?? 0.75).push(a.x, 0.09, a.z, r, 1, r, t * 0.5);
+      // Permanent auras cover a large part of the screen: keep their fill barely visible so enemies and terrain stay readable.
+      const permanent = !Number.isFinite(a.maxLife);
+      zoneBatch(v?.fillColor ?? color, 'area', 'disc', v?.fillOpacity ?? (permanent ? 0.07 : 0.22)).push(a.x, 0.06, a.z, r * Math.max(0.2, fade), 1, r * Math.max(0.2, fade), 0);
+      zoneBatch(color, 'ring', 'ring', v?.ringOpacity ?? (permanent ? 0.55 : 0.75)).push(a.x, 0.09, a.z, r, 1, r, t * 0.5);
       // Optional opaque, non-emissive core (e.g. a black hole's dark centre): vfx.coreColor + vfx.coreRadius.
       if (v?.coreColor) {
         const cr = (v.coreRadius ?? a.r * 0.3) * 2 * Math.max(0.2, fade);
