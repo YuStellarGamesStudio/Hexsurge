@@ -214,7 +214,7 @@ async function boot() {
 
 function registerServiceWorker() {
   if (!('serviceWorker' in navigator) || !/^https:|^http:\/\/(localhost|127\.0\.0\.1)/.test(location.href)) return;
-  navigator.serviceWorker.register('sw.js').catch((e) => console.warn('SW registration failed', e));
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch((e) => console.warn('SW registration failed', e));
 }
 
 window.hexsurge = app; // handy for the console and automated checks
