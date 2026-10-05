@@ -15,18 +15,22 @@ import { recomputeStats } from '../sim/player.js';
 import { step } from '../sim/run.js';
 
 export function applyDebug(run, o) {
+  // Unknown spell ids are skipped so benches keep working while spell content is still being written.
+  const known = (id) => !!SPELL_BY_ID[id];
   if (o.spells) {
     for (const s of run.spells) s.orbiters?.forEach((x) => { x.dead = true; });
     run.spells.length = 0;
-    for (const id of o.spells) addSpell(run, id);
+    for (const id of o.spells.filter(known)) addSpell(run, id);
   }
   for (const [id, lv] of Object.entries(o.levels ?? {})) {
+    if (!known(id)) continue;
     const s = spellOwned(run, id) ?? addSpell(run, id);
     s.level = lv; s.sLevel = -1;
   }
   for (const [id, lv] of Object.entries(o.passives ?? {})) run.passives[id] = lv;
-  for (const id of o.evolve ?? []) {
+  for (const id of (o.evolve ?? []).filter(known)) {
     const s = spellOwned(run, id) ?? addSpell(run, id);
+    if (!s.def.evolution || !SPELL_BY_ID[s.def.evolution.id]) continue;
     s.level = MAX_SPELL_LEVEL; s.sLevel = -1;
     const evo = s.def.evolution;
     run.passives[evo.passive] = Math.max(run.passives[evo.passive] ?? 0, evo.level);

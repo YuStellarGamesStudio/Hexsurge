@@ -13,6 +13,9 @@ import { spawnEnemy } from '../enemies.js';
 import { spawnZone } from '../hazards.js';
 import { angleTo, TAU } from '../math.js';
 
+/** Marks the boss as casting for `seconds` (models read boss.casting to play a wind-up). ring()/fan()/blast() call it for you. */
+export function markCast(b, seconds = 0.6) { b.casting = Math.max(b.casting ?? 0, seconds); }
+
 export const toPlayer = (run, b) => angleTo(b.x, b.z, run.player.x, run.player.z);
 
 export function moveToward(run, b, tx, tz, speed, dt) {
@@ -39,6 +42,7 @@ export function bullet(run, b, o) {
 /** Evenly spaced ring of bullets. o: { count, speed, damage, offset=0, ...bullet opts } */
 export function ring(run, b, o) {
   for (let i = 0; i < o.count; i++) bullet(run, b, { ...o, angle: (o.offset ?? 0) + (i / o.count) * TAU });
+  markCast(b);
   emit(run, { type: 'bossCast', x: b.x, z: b.z, kind: 'ring' });
 }
 
@@ -49,6 +53,7 @@ export function fan(run, b, o) {
     const t = o.count === 1 ? 0 : i / (o.count - 1) - 0.5;
     bullet(run, b, { ...o, angle: base + t * o.spread });
   }
+  markCast(b);
   emit(run, { type: 'bossCast', x: b.x, z: b.z, kind: 'fan' });
 }
 

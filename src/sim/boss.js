@@ -39,6 +39,7 @@ export function updateBosses(run, dt) {
   for (let i = run.bosses.length - 1; i >= 0; i--) {
     const e = run.bosses[i];
     if (e.dead) { run.bosses.splice(i, 1); continue; }
+    if (e.casting > 0) e.casting -= dt;
     const hpFrac = e.hp / e.maxHp;
     if (!e.enraged && hpFrac <= e.bossDef.enrageAt) {
       e.enraged = true;
