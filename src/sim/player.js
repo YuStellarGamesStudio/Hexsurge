@@ -10,6 +10,7 @@ export function createPlayer(mage) {
     hp: PLAYER.baseHp, shield: 0, shieldRegenT: 0, invuln: 0, lastHurtT: -99,
     level: 1, xp: 0, xpNext: 0,
     dmgBuff: 1, hunger: { stacks: 0, t: 0 }, passiveT: 0,
+    spellShield: {}, // spellId -> max shield granted by that spell (set by spell handlers, summed into shieldMax)
     stats: null, r: PLAYER.radius, mageId: mage.id,
   };
   return p;
@@ -45,8 +46,10 @@ export function recomputeStats(run) {
   if (s.maxHp > prevMax) p.hp += s.maxHp - prevMax; // gaining max HP also heals the gain
   p.hp = Math.min(p.hp, s.maxHp);
   const prevShield = p.shieldMax ?? 0;
-  p.shieldMax = s.shield;
-  if (s.shield > prevShield) p.shield += s.shield - prevShield;
+  let spellShield = 0;
+  for (const v of Object.values(p.spellShield)) spellShield += v;
+  p.shieldMax = s.shield + spellShield;
+  if (p.shieldMax > prevShield) p.shield += p.shieldMax - prevShield;
   p.shield = Math.min(p.shield, p.shieldMax);
 }
 
