@@ -262,7 +262,10 @@ export class BattleView {
     // Persistent spell areas: translucent disc + bright ring so enemies stay readable on top.
     for (const a of run.areas) {
       const color = a.vfx?.color ?? ELEMENT_COLORS[a.element] ?? '#ffffff';
-      const fade = Math.min(1, a.life / 0.6, (a.maxLife - a.life) / 0.2 + 0.2);
+      // Permanent areas (aura spells) have an infinite life: only fade in/out for finite ones.
+      const fadeOut = Number.isFinite(a.life) ? a.life / 0.6 : 1;
+      const fadeIn = Number.isFinite(a.maxLife) ? (a.maxLife - a.life) / 0.2 + 0.2 : 1;
+      const fade = Math.min(1, fadeOut, fadeIn);
       const r = a.r * 2 * (a.warm > 0 ? 0.9 : 1) * (0.97 + Math.sin(t * 4 + a.id) * 0.03);
       const v = a.vfx;
       zoneBatch(v?.fillColor ?? color, 'area', 'disc', v?.fillOpacity ?? 0.22).push(a.x, 0.06, a.z, r * Math.max(0.2, fade), 1, r * Math.max(0.2, fade), 0);
