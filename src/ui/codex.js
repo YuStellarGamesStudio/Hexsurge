@@ -62,13 +62,18 @@ export function create(app) {
     return ['damage', 'cooldown', 'count', 'radius', 'speed', 'duration', 'pierce', 'range', 'jumps', 'life', 'tick', 'explode'].filter(key => typeof low[key] === 'number').map(key => [t(`stat.${key}`), Number(low[key].toFixed(2)), Number(high[key].toFixed(2))]);
   }
   function render() {
+    s.el.classList.toggle('codex-detail-mode', Boolean(selected));
+    tabs.hidden = Boolean(selected);
+    footer.hidden = Boolean(selected);
     header.replaceChildren(el('div', {}, el('h1', {}, t('codex.title')), el('p', {}, t('codex.collection'))), button(t('common.back'), () => selected ? (selected = null, render()) : app.go('title')));
     tabs.replaceChildren(...Object.keys(tables).map(k => button(t(`codex.${k}`), () => { kind = k; page = 0; selected = null; render(); }, { role: 'tab', 'aria-selected': String(kind === k), class: kind === k ? 'active' : '' })));
     body.replaceChildren(); footer.replaceChildren();
     if (selected) {
       const d = selected, discovered = known(d), r = kind === 'spells' ? recipe(d) : null;
       const portrait = el('div', { class: 'codex-portrait', style: `--entry-color:${tint(d)}` }, art(d, kind, !discovered), el('span', { class: 'codex-seal' }, t(`codex.${kind}`)));
-      const info = el('article', { class: 'codex-info' }, el('h2', {}, discovered ? name(d) : '???'), el('p', { class: 'codex-description' }, discovered ? kind === 'reactions' ? t(`reaction.${d.id}.desc`) : L(d.desc) : hint(d)));
+      header.querySelector('h1').textContent = discovered ? name(d) : '???';
+      header.querySelector('p').textContent = t(`codex.${kind}`);
+      const info = el('article', { class: `codex-info${kind === 'spells' ? ' codex-spell-info' : ''}` }, el('p', { class: 'codex-description' }, discovered ? kind === 'reactions' ? t(`reaction.${d.id}.desc`) : L(d.desc) : hint(d)));
       if (discovered) {
         info.append(el('div', { class: 'codex-facts' }, ...facts(d).map(text => el('p', {}, text))));
         if (kind === 'spells') {
@@ -79,10 +84,11 @@ export function create(app) {
       }
       if (r) info.append(el('section', { class: 'codex-recipe' }, el('h3', {}, t('codex.recipe')), el('div', { class: 'codex-recipe-line' }, art(r.item, 'passives'), el('p', {}, r.text)), el('p', { class: r.achieved ? 'codex-satisfied' : '' }, `${r.achieved ? '✓' : '◇'} ${r.status}`), el('small', {}, t('codex.passiveGuide'))));
       body.append(el('div', { class: 'codex-detail' }, portrait, info));
-      footer.append(button(t('common.close'), () => { selected = null; render(); }), button(t('codex.download'), async (event) => {
+      const actions = el('div', { class: 'codex-detail-actions' }, button(t('common.close'), () => { selected = null; render(); }), button(t('codex.download'), async (event) => {
         const b = event.currentTarget; b.disabled = true; b.textContent = t('codex.exporting');
         try { await download(d, discovered, r); } catch { app.toast(t('codex.failed')); } finally { b.disabled = false; b.textContent = t('codex.download'); }
       }, { class: 'codex-download' }));
+      header.lastChild.replaceWith(actions);
     } else {
       const list = tables[kind], total = Math.max(1, Math.ceil(list.length / capacity)); page = Math.min(page, total - 1);
       body.append(el('div', { class: 'codex-grid' }, ...list.slice(page * capacity, (page + 1) * capacity).map(entry)));
