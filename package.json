@@ -1,0 +1,14 @@
+{
+  "name": "hexsurge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hexsurge (魔潮圍城) - a low-poly fantasy survival-bullet-hell for the browser, built on XYZ.js.",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "dev": "node tools/serve.mjs 5180",
+    "test": "node --test tests/",
+    "balance": "node tools/balance.mjs",
+    "cache": "node tools/build-cache.mjs"
+  }
+}
