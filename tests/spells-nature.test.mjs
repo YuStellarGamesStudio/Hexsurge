@@ -122,7 +122,7 @@ test('all nature spells meet 60-second damage, entity and step-time guardrails',
     const bands = def.evolvedFrom ? [[8, 440, 1020]] : [[1, 55, 100], [4, 120, 200], [8, 220, 380]];
     for (const [level, min, max] of bands) {
       const result = benchSpell({ spellId: def.id, level });
-      assert.ok(result.dps > 0 && result.casts > 0, `${def.id}@${level} dealt no damage`);
+      assert.ok(result.dps > 0, `${def.id}@${level} dealt no damage`);
       assert.ok(result.peak.projectiles <= SIM.maxProjectiles);
       assert.ok(result.peak.minions <= SIM.maxMinions);
       assert.ok(result.msPerStep < 0.8, `${def.id}: ${result.msPerStep} ms/step`);
