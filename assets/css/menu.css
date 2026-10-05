@@ -26,3 +26,6 @@
   .difficulty-stats{margin:0;gap:5px}
   .difficulty-stats>div{font-size:11px}
 }
+.map-art{display:block;overflow:hidden}
+.board-table{height:100%}
+.board-table td{height:auto}
