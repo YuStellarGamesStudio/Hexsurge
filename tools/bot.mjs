@@ -37,7 +37,25 @@ export function botMove(run) {
 export function botPick(run, strategy = 'focus') {
   const cs = run.levelUp.choices;
   if (strategy === 'random') return Math.floor(run.rng() * cs.length);
-  const score = (c) => ({ evolve: 100, spell_up: 60, passive_up: 40, spell_new: 50, passive_new: 30, heal: 5, score: 1 }[c.kind] ?? 0);
+  // 'focus' models a competent player: take evolutions, chase the passive a nearly-maxed spell needs,
+  // concentrate upgrades on a few spells (cap 4 by default), then fall back to generic power passives.
+  const maxSpells = strategy === 'wide' ? 6 : 4;
+  const wanted = new Set();
+  for (const s of run.spells) {
+    const evo = s.def.evolution;
+    if (evo && !s.evolved && s.level >= 3 && (run.passives[evo.passive] ?? 0) < evo.level) wanted.add(evo.passive);
+  }
+  const generic = { power_sigil: 36, tome_haste: 35, hourglass: 33, twin_crest: 32, wide_sigil: 30, vitality: 29 };
+  const score = (c) => {
+    switch (c.kind) {
+      case 'evolve': return 1000;
+      case 'passive_new': case 'passive_up': return (wanted.has(c.id) ? 90 : generic[c.id] ?? 20) + (c.kind === 'passive_up' ? 3 : 0);
+      case 'spell_up': return 60 + c.level * 2;
+      case 'spell_new': return run.spells.length < maxSpells ? 55 : 5;
+      case 'heal': return run.player.hp < run.player.stats.maxHp * 0.6 ? 70 : 5;
+      default: return 1;
+    }
+  };
   let best = 0;
   cs.forEach((c, i) => { if (score(c) > score(cs[best])) best = i; });
   return best;

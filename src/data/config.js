@@ -53,9 +53,9 @@ export const PLAYER = Object.freeze({
 });
 
 export const XP = Object.freeze({
-  firstLevel: 12,            // xp needed for level 1 -> 2
-  growth: 1.155,             // exponential growth per level
-  linear: 3,                 // flat add per level
+  firstLevel: 45,            // xp needed for level 1 -> 2
+  growth: 1.11,             // exponential growth per level
+  linear: 0,                 // flat add per level
   gemValues: [1, 3, 8, 20, 60], // tiers; renderer colours by tier
   mergeThreshold: 120,       // merge gems when this many exist
   maxLevel: 60,

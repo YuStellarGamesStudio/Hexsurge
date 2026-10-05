@@ -21,7 +21,7 @@ export function recomputeStats(run) {
   const p = run.player, mage = run.mage;
   const s = {
     damage: 1, castSpeed: 1, area: 1, pickup: 1, moveSpeed: 1, luck: 0, maxHpMult: 1, shield: 0,
-    xpGain: PLAYER.baseXpGain, cooldown: 0, count: 0, duration: 1, regen: 0,
+    xpGain: PLAYER.baseXpGain, cooldown: 0, count: 0, duration: 1, regen: PLAYER.baseRegen,
     critChance: PLAYER.baseCritChance, critMult: PLAYER.baseCritMult,
   };
   const add = (stat, v) => {

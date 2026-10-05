@@ -64,7 +64,7 @@ tests/             node:test
 
 ## 6. 交付前自檢
 
-- [ ] `node --test tests/` 全綠；`node tools/balance.mjs` 的曲線與雙軌差距落在護欄內。
+- [ ] `npm test`（`node --test tests/*.test.mjs`）全綠；`node tools/balance.mjs` 的曲線與雙軌差距落在護欄內。
 - [ ] 三語切換全畫面不重載、無空白、無 key 名。
 - [ ] 飛機模式可玩；舊快取升級路徑通過；更新不動存檔。
 - [ ] 三個斷點（寬／中／窄）全畫面無捲軸；觸控目標 ≥ 44px。

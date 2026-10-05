@@ -49,7 +49,7 @@ tests/                    node:test（模擬、存檔、i18n 完整性）
 
 ```
 node tools/serve.mjs 5180            # 開發伺服器 http://127.0.0.1:5180/
-node --test tests/                   # 單元測試
+node --test tests/*.test.mjs                   # 單元測試
 node tools/bot.mjs ignis academy 1 1100          # 無頭整局機器人，列出升級／擊殺時間軸
 node tools/spelltest.mjs <spellId> [--level n]   # 單一法術 DPS／實體峰值／每步耗時
 node tools/build-cache.mjs           # 重新產生 SW 預快取清單（上線前）

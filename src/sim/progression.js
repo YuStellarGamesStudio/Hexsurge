@@ -1,5 +1,5 @@
 // XP curve, level-up three-pick, spells/passives acquisition and evolution (R10), synergy bookkeeping (R11).
-import { SIM, XP, SCORE } from '../data/config.js';
+import { PLAYER, SIM, XP, SCORE } from '../data/config.js';
 import { PASSIVES, PASSIVE_BY_ID } from '../data/passives.js';
 import { BASE_SPELLS, MAX_SPELL_LEVEL, SPELL_BY_ID } from '../data/spells/index.js';
 import { SYNERGY } from '../data/config.js';
@@ -77,6 +77,7 @@ export function gainXp(run, value) {
     p.level++;
     p.xpNext = xpForLevel(p.level);
     run.pendingLevels++;
+    healPlayer(run, p.stats.maxHp * PLAYER.levelUpHeal);
     run.stats.maxLevel = p.level;
     run.hooks.addScore(run, SCORE.levelBonus);
     onPlayerLevelUp(run);
