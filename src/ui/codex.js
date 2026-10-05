@@ -91,8 +91,13 @@ export function create(app) {
     }
   }
   async function download(d, discovered, r) {
+    const category = kind, lang = app.getLang(), heading = t(`codex.${category}`);
+    const title = discovered ? name(d) : '???';
+    const description = discovered ? category === 'reactions' ? t(`reaction.${d.id}.desc`) : L(d.desc) : hint(d);
+    const details = discovered ? facts(d) : [], stats = discovered && category === 'spells' ? statRows(d) : [];
+    const recipeHeading = t('codex.recipe');
     let svg;
-    try { const response = await fetch(artPath(kind, d)); if (!response.ok) throw new Error('missing'); svg = await response.text(); if (!svg.includes('<svg')) throw new Error('invalid'); } catch { svg = emblem(tint(d)); }
+    try { const response = await fetch(artPath(category, d)); if (!response.ok) throw new Error('missing'); svg = await response.text(); if (!svg.includes('<svg')) throw new Error('invalid'); } catch { svg = emblem(tint(d)); }
     const parsed = new DOMParser().parseFromString(svg, 'image/svg+xml');
     const serialized = new XMLSerializer().serializeToString(parsed.documentElement);
     const url = svgUrl(serialized), image = new Image();
@@ -102,7 +107,7 @@ export function create(app) {
     ctx.fillStyle = '#0c1122'; ctx.fillRect(0, 0, canvas.width, canvas.height);
     const glow = ctx.createRadialGradient(900, 650, 0, 900, 650, 950); glow.addColorStop(0, `${tint(d)}80`); glow.addColorStop(1, '#0c1122'); ctx.fillStyle = glow; ctx.fillRect(0, 0, 1800, 1350);
     ctx.strokeStyle = tint(d); ctx.lineWidth = 4; ctx.strokeRect(54, 54, canvas.width - 108, canvas.height - 108);
-    ctx.fillStyle = '#cbd4ea'; ctx.font = '32px sans-serif'; ctx.fillText(`HEXSURGE · ${t(`codex.${kind}`)}`, 110, 130);
+    ctx.fillStyle = '#cbd4ea'; ctx.font = '32px sans-serif'; ctx.fillText(`HEXSURGE · ${heading}`, 110, 130);
     if (!discovered) { ctx.filter = 'brightness(0)'; } ctx.drawImage(image, 390, 210, 1020, 1020); ctx.filter = 'none';
     ctx.fillStyle = '#fff'; ctx.font = 'bold 64px sans-serif';
     let y = 1330;
@@ -111,12 +116,13 @@ export function create(app) {
       for (const char of text) { if (ctx.measureText(line + char).width > 1540) { ctx.fillText(line, 130, y); y += size * 1.5; line = ''; } line += char; }
       if (line) { ctx.fillText(line, 130, y); y += size * 1.5; } y += 14;
     }
-    wrap(discovered ? name(d) : '???', 64, '#fff');
-    wrap(discovered ? kind === 'reactions' ? t(`reaction.${d.id}.desc`) : L(d.desc) : hint(d), 38);
-    if (discovered) { for (const text of facts(d)) wrap(text, 30); if (kind === 'spells') for (const row of statRows(d)) wrap(`${row[0]}: ${row[1]} → ${row[2]}`, 27); }
-    if (r) { wrap(t('codex.recipe'), 34, tint(d)); wrap(r.text, 30); wrap(r.status, 27); }
+    wrap(title, 64, '#fff');
+    wrap(description, 38);
+    for (const text of details) wrap(text, 30);
+    for (const row of stats) wrap(`${row[0]}: ${row[1]} → ${row[2]}`, 27);
+    if (r) { wrap(recipeHeading, 34, tint(d)); wrap(r.text, 30); wrap(r.status, 27); }
     const blob = await new Promise((resolve, reject) => canvas.toBlob(value => value ? resolve(value) : reject(new Error('PNG encoding failed')), 'image/png'));
-    const png = URL.createObjectURL(blob), a = el('a', { href: png, download: `hexsurge-${d.id}-${app.getLang()}.png` }); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(png), 60000);
+    const png = URL.createObjectURL(blob), a = el('a', { href: png, download: `hexsurge-${d.id}-${lang}.png` }); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(png), 60000);
   }
   function resize() {
     if (!active) return;
