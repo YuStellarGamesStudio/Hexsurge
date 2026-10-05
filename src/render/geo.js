@@ -66,7 +66,7 @@ export class MeshBuilder {
       const b0 = [Math.cos(a0) * rb, 0, Math.sin(a0) * rb], b1 = [Math.cos(a1) * rb, 0, Math.sin(a1) * rb];
       const t0 = [Math.cos(a0) * rt, h, Math.sin(a0) * rt], t1 = [Math.cos(a1) * rt, h, Math.sin(a1) * rt];
       tris.push([b1, b0, t0]);
-      if (rt > 0) tris.push([b1, t0, t1], [[0, h, 0], t0, t1]);
+      if (rt > 0) tris.push([b1, t0, t1], [[0, h, 0], t1, t0]);
       tris.push([[0, 0, 0], b0, b1]);
     }
     return this.soup(tris, color, t, shade);
@@ -110,7 +110,7 @@ export class MeshBuilder {
       const a0 = (i / seg) * Math.PI * 2, a1 = ((i + 1) / seg) * Math.PI * 2;
       const i0 = [Math.cos(a0) * rIn, y, Math.sin(a0) * rIn], i1 = [Math.cos(a1) * rIn, y, Math.sin(a1) * rIn];
       const o0 = [Math.cos(a0) * rOut, y, Math.sin(a0) * rOut], o1 = [Math.cos(a1) * rOut, y, Math.sin(a1) * rOut];
-      tris.push([i0, o0, o1], [i0, o1, i1]);
+      tris.push([i0, o1, o0], [i0, i1, o1]);
     }
     return this.soup(tris, color, t, shade);
   }

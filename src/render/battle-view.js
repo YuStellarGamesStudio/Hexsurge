@@ -266,6 +266,13 @@ export class BattleView {
       const r = a.r * 2 * (a.warm > 0 ? 0.9 : 1) * (0.97 + Math.sin(t * 4 + a.id) * 0.03);
       zoneBatch(color, 'area', 'disc', 0.22).push(a.x, 0.06, a.z, r * Math.max(0.2, fade), 1, r * Math.max(0.2, fade), 0);
       zoneBatch(color, 'ring', 'ring', 0.75).push(a.x, 0.09, a.z, r, 1, r, t * 0.5);
+      // A spell may add its own emblem (vfx.shape other than disc/ring) at vfx.size, independent of the effect radius.
+      const v = a.vfx;
+      if (v && v.shape && v.shape !== 'disc' && v.shape !== 'ring') {
+        const size = (v.size ?? a.r) * 2 * Math.max(0.2, fade);
+        const flat = FLAT_SHAPES.has(v.shape);
+        zoneBatch(color, 'emblem', v.shape, 0.9).push(a.x, flat ? 0.12 : 0.9, a.z, size, flat ? 1 : size, size, t * (v.spin ?? 0.8));
+      }
     }
     // Delayed strikes: red-hot telegraph that fills as the impact nears.
     for (const s of run.strikes) {
