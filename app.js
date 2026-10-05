@@ -24,6 +24,7 @@ import * as leaderboard from './src/ui/leaderboard.js';
 import * as settings from './src/ui/settings.js';
 import * as howto from './src/ui/howto.js';
 import * as toast from './src/ui/toast.js';
+import { initPwa } from './src/pwa.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -37,6 +38,7 @@ const app = {
   go(name, params) {
     for (const key of ['title', 'select', 'codex', 'leaderboard', 'settings', 'howto', 'results']) if (key !== name) app.ui[key].hide();
     app.screen = name;
+    app.pwa?.sync(name);
     app.ui[name].show(params);
     applyI18n(app.ui[name].el);
     if (name === 'title') app.audio.playMusic('title');
@@ -212,12 +214,8 @@ async function boot() {
   }
   if (loadInfo.notice) app.toast(t('save.loadFailed'));
   $('boot').classList.add('done');
-  registerServiceWorker();
-}
-
-function registerServiceWorker() {
-  if (!('serviceWorker' in navigator) || !/^https:|^http:\/\/(localhost|127\.0\.0\.1)/.test(location.href)) return;
-  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch((e) => console.warn('SW registration failed', e));
+  app.pwa = initPwa($('stage'));
+  app.pwa.sync(app.screen);
 }
 
 window.hexsurge = app; // handy for the console and automated checks

@@ -13,7 +13,8 @@ import settings from './ui/settings.js';
 import howto from './ui/howto.js';
 import save from './ui/save.js';
 import game from './ui/game.js';
+import pwa from './ui/pwa.js';
 
-const modules = [common, title, select, hud, levelup, pause, results, codex, leaderboard, settings, howto, save, game];
+const modules = [common, title, select, hud, levelup, pause, results, codex, leaderboard, settings, howto, save, game, pwa];
 export const STRINGS = { en: {}, zh: {}, ja: {} };
 for (const m of modules) for (const lang of Object.keys(STRINGS)) Object.assign(STRINGS[lang], m[lang]);
