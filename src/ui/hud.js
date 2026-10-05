@@ -16,6 +16,8 @@ export function create(app) {
   const pause = el('button', { class: 'hud-button', 'data-i18n-aria': 'common.pause', onClick: () => app.togglePause() }, 'Ⅱ');
   const top = el('header', { class: 'hud-top' }, el('div', { class: 'hud-clock' }, timer, countdown), el('div', { class: 'hud-actions' }, sound, pause));
   const hearts = el('div', { class: 'hud-hearts' }), health = el('small');
+  const miniHearts = el('div', { class: 'hud-hearts' });
+  const miniHealth = el('div', { class: 'hud-mini-health', role: 'img' }, miniHearts);
   const shieldFill = el('i'), shield = el('div', { class: 'hud-shield' }, shieldFill);
   const kills = el('strong'), score = el('strong'), synergy = el('div', { class: 'hud-synergy' });
   const status = el('aside', { class: 'hud-status hud-panel' }, el('h2', { 'data-i18n': 'hud.status' }), hearts, health, shield,
@@ -33,7 +35,7 @@ export function create(app) {
     s.el.dataset.panel = next;
     for (const b of tabs.children) b.setAttribute('aria-expanded', String(b === e.currentTarget && next !== ''));
   } }));
-  s.el.append(vignette, top, status, build, bossBar, warning, popover, tabs, xp);
+  s.el.append(vignette, top, miniHealth, status, build, bossBar, warning, popover, tabs, xp);
   let buildKey = '', heartKey = '', warningKey = '', warningTime = 0, hurtTime = 0, lastRun = null;
   const clock = (t) => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
   function icon(folder, id, element, name) {
@@ -57,9 +59,11 @@ export function create(app) {
     if (hk !== heartKey) {
       heartKey = hk;
       hearts.replaceChildren(...Array.from({ length: total }, (_, i) => el('span', { class: `hud-heart ${halfHearts >= i * 2 + 2 ? 'full' : halfHearts > i * 2 ? 'half' : 'empty'}`, 'aria-hidden': 'true' }, '♥')));
+      miniHearts.replaceChildren(...Array.from(hearts.children, (heart) => heart.cloneNode(true)));
     }
     health.textContent = `${Math.ceil(hp)} / ${Math.round(maxHp)}`;
     hearts.setAttribute('aria-label', app.t('hud.health', { hp: Math.ceil(hp), max: Math.round(maxHp) }));
+    miniHealth.setAttribute('aria-label', app.t('hud.health', { hp: Math.ceil(hp), max: Math.round(maxHp) }));
     shield.hidden = !p.shieldMax;
     shieldFill.style.width = `${Math.min(100, p.shield / (p.shieldMax || 1) * 100)}%`;
     shield.title = app.t('hud.shield', { n: Math.ceil(p.shield) });
