@@ -68,6 +68,8 @@ const app = {
     const view = new BattleView(app.game, run, { overlayParent: $('stage'), t, reducedMotion: save.data.settings.reducedMotion });
     app.run = run; app.view = view; app.paused = false; app.levelUpOpen = false; app.deadTimer = 0; app.accum = 0;
     await view.init();
+    // setScene destroyed the title scene; drop it so showTitle() builds a fresh one.
+    if (app.titleView) { app.titleView.dispose(); app.titleView = null; }
     view.scene.onTick = (dt) => app.tickBattle(dt);
     app.ui.hud.show(run);
     app.input.setEnabled(true);
@@ -97,7 +99,7 @@ const app = {
     app.ui.hud.update?.(run, dt);
 
     if (run.status === 'levelup' && !app.levelUpOpen) { app.levelUpOpen = true; app.input.setEnabled(false); app.ui.levelup.show(run); }
-    if (run.status === 'dead' || run.status === 'won') {
+    if (app.screen === 'battle' && (run.status === 'dead' || run.status === 'won')) {
       app.deadTimer += dt;
       if (app.deadTimer > (run.status === 'dead' ? 1.6 : 1.2)) app.finishRun();
     }
