@@ -1,11 +1,10 @@
-// Vertex shading preserves dark cores even under the pink emissive material.
+// Ground singularities leave their centre open for the renderer's non-emissive core.
 import { MeshBuilder } from '../geo.js';
 const W = '#ffffff', DARK = '#170a22';
 export const SHAPES = {
   void_rift: () => new MeshBuilder().ring(0.36, 0.5, 16, W, undefined, 0, 0.02)
     .cylinder(0.35, 0.035, 16, DARK).ring(0.19, 0.22, 8, '#93678f', undefined, 0, 0.025).build(),
   void_singularity: () => new MeshBuilder().ring(0.39, 0.5, 24, W, undefined, 0, 0.025)
-    .ico(0.3, 1, DARK, { pos: [0, 0.3, 0] }, 0.08)
     .ring(0.32, 0.36, 16, '#bf86ba', { rot: [Math.PI / 3, 0, 0], pos: [0, 0.3, 0] }, 0, 0.025).build(),
   void_familiar: () => new MeshBuilder().gem(0.26, 0.48, 0.26, 5, DARK, undefined, 0.08)
     .ring(0.3, 0.39, 8, W, { rot: [Math.PI / 2, 0, 0] }, 0, 0.03)
