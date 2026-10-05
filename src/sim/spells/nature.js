@@ -82,7 +82,7 @@ export const NATURE_HANDLERS = {
       upkeepPack(ctx);
       const alpha = ctx.run.minions.find((m) => m.spellId === ctx.def.id && !m.dead && m.slot === 0);
       emit(ctx.run, { type: 'burst', x: alpha?.x ?? ctx.player.x, z: alpha?.z ?? ctx.player.z,
-        radius: ctx.area(ctx.s.howlRadius), element: ctx.def.element, kind: 'howl' });
+        r: ctx.area(ctx.s.howlRadius), element: ctx.def.element, kind: 'howl' });
     },
   },
   razor_leaf: {

@@ -93,6 +93,9 @@ test('alpha is larger and howl buffs the pack only for its duration', () => {
   const alpha = run.minions.find((m) => m.slot === 0), other = run.minions.find((m) => m.slot === 1);
   assert.ok(alpha.r > other.r); const dmg = other.dmg, speed = other.speed;
   NATURE_HANDLERS.fenrir_pack.cast(ctx);
+  const howl = run.events.find((event) => event.kind === 'howl');
+  assert.equal(howl.r, ctx.area(ctx.s.howlRadius));
+  assert.ok(Number.isFinite(howl.r));
   assert.ok(other.dmg > dmg); assert.ok(other.speed > speed);
   run.t = ctx.spell.howlUntil + SIM.step;
   NATURE_HANDLERS.fenrir_pack.update(ctx);
