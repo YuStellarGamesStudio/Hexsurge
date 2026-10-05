@@ -21,7 +21,7 @@ export const THUNDER_SPELLS = [
     id: 'thunderstrike', element: 'thunder', type: 'burst',
     name: T('落雷術', 'Thunderstrike', '落雷'),
     desc: T('短暫預警後，雷柱轟擊隨機敵人周圍。', 'After a brief warning, lightning strikes around randomly chosen enemies.', '短い予兆の後、無作為に選んだ敵の周囲に雷が落ちる。'),
-    base: { cooldown: 1.5, damage: 18, count: 2, radius: 2.2, delay: 0.4, range: 20, arcLife: 0.2, columnLength: 1.5 },
+    base: { cooldown: 1.5, damage: 16, count: 2, radius: 2.2, delay: 0.4, range: 20, arcLife: 0.2, columnLength: 1.5 },
     perLevel: growth(4, -0.07),
     evolution: { id: 'sky_judgement', passive: 'clover', level: 3 }, vfx: vfx('bolt', 1.1),
   },
