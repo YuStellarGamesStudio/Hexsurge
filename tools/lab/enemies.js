@@ -27,7 +27,7 @@ async function show(){
     const index=mode==='grid'?i:(i*7)%ENEMIES.length,def=ENEMIES[index];
     const cols=mode==='grid'?7:6,spacing=mode==='grid'?3.35:2.7;
     const x=(i%cols-(cols-1)/2)*spacing,z=(Math.floor(i/cols)-(mode==='grid'?1.5:2))*spacing;
-    const mesh=new Mesh({geometry:geometries[index],material:matte()});mesh.position.set(x,def.flying?1.5:0,z);const scale=mode==='grid'?.75/def.radius:1;mesh.scale.set(scale,scale,scale);mesh.rotation.y=mode==='grid'?-.55:(i%5)*1.1;scene.add(mesh);
+    const mesh=new Mesh({geometry:geometries[index],material:matte()});mesh.position.set(x,def.flying?1.5:0,z);const scale=mode==='grid'?.75/def.radius:1;mesh.scale.set(scale,scale,scale);mesh.rotation.setFromEuler(0,mode==='grid'?-.55:(i%5)*1.1,0);scene.add(mesh);
     if(mode==='grid'){scene.add(new Mesh({geometry:new MeshBuilder().cylinder(1.13,.08,12,'#7f7c86',{pos:[x,-.025,z]}).build(),material:matte()}));const label=document.createElement('div');label.className='label';label.textContent=def.name[lang];const small=document.createElement('small');small.textContent=`${stats[index].triangles} △`;label.append(small);labels.append(label);scene.entries.push({x,z,label});}
   }
   for(const key of ['title','grid','mixed'])document.querySelector(`#${key}`).textContent=words[lang][key];document.querySelector('#note').textContent=words[lang][`${mode}Note`];for(const key of ['grid','mixed'])document.querySelector(`#${key}`).setAttribute('aria-pressed',String(mode===key));document.documentElement.lang=lang;
