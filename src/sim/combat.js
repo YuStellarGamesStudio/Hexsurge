@@ -183,7 +183,7 @@ export function healPlayer(run, amount) {
 /** Damage to the player. Returns true if it landed (not blocked by i-frames). */
 export function hurtPlayer(run, amount, src = {}) {
   const p = run.player;
-  if (p.invuln > 0 && !src.ignoreInvuln) return false;
+  if (p.god || (p.invuln > 0 && !src.ignoreInvuln)) return false;
   if (run.status !== 'running' && run.status !== 'won') return false;
   let dmg = amount;
   if (!src.ignoreShield && p.shield > 0) {

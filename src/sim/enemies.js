@@ -43,6 +43,7 @@ export function spawnEnemy(run, def, x, z, opts = {}) {
     aiT: run.rng() * 1.5, state: 0, fuseT: 0, lungeT: 0, summoner: opts.summoner ?? null, facing: 0, age: 0,
   };
   run.enemies.push(e);
+  run.seen.enemies.add(def.id);
   return e;
 }
 

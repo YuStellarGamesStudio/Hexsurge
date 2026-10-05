@@ -20,6 +20,8 @@ export function spawnBoss(run, index) {
   const len = Math.hypot(x, z), lim = ARENA.radius - 3;
   if (len > lim) { x *= lim / len; z *= lim / len; }
   const e = spawnEnemy(run, def, x, z, {});
+  run.seen.enemies.delete(def.id);
+  run.seen.bosses.add(bd.id);
   const hp = bd.hp[tier] * run.difficulty.hp * (1 + 0.35 * endlessN);
   e.hp = e.maxHp = hp;
   e.boss = true; e.bossDef = bd; e.tier = tier; e.bossIndex = index; e.enraged = false; e.spawnT = run.t; e.data = {};

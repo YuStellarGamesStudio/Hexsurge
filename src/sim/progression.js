@@ -17,6 +17,7 @@ export function addSpell(run, id) {
   const def = SPELL_BY_ID[id];
   const spell = { def, level: 1, cd: 0.25, evolved: false, orbiters: null, s: null, sLevel: -1, sDef: null, ctx: null, data: {} };
   run.spells.push(spell);
+  run.seen.spells.add(id);
   HANDLERS[id]?.init?.(makeCtx(run, spell));
   recomputeSynergy(run);
   return spell;
@@ -60,6 +61,7 @@ export function evolveSpell(run, spell) {
   spell.orbiters = null; spell.data = {};
   HANDLERS[evo.id]?.init?.(makeCtx(run, spell));
   run.stats.evolutions++;
+  run.seen.evolutions.add(evo.id);
   run.evolvedIds.add(evo.id);
   recomputeSynergy(run);
   emit(run, { type: 'evolve', from, to: evo.id, element: evo.element });

@@ -38,6 +38,7 @@ export function createRun(opts) {
     hazardState: map.hazards.map(() => ({})),
     events: [], nextId: 1, rawScore: 0, score: 0, kills: 0, levelUp: null, pendingLevels: 0, chainDepth: 0,
     stats: { kills: 0, damage: 0, damageTaken: 0, bossKills: 0, maxLevel: 1, evolutions: 0 },
+    seen: { enemies: new Set(), spells: new Set(), evolutions: new Set(), bosses: new Set() },
     hooks: null,
   };
   run.hooks = {

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#120d2e">
+  <title>Hexsurge · 魔潮圍城</title>
+  <meta name="description" content="Hexsurge: an auto-casting fantasy survival bullet-hell. Move, level up, evolve your spells, and outlast the 18-minute magic tide.">
+  <link rel="canonical" href="https://hexsurge.ysgs.app/">
+  <!-- Open Graph: fixed English, never switched by ?lang (§5/§7) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Hexsurge">
+  <meta property="og:title" content="Hexsurge — Survive the Magic Tide">
+  <meta property="og:description" content="Auto-cast spells, dodge the horde, evolve your magic. A low-poly fantasy survival bullet-hell for your browser — free, no login.">
+  <meta property="og:url" content="https://hexsurge.ysgs.app/">
+  <meta property="og:image" content="https://hexsurge.ysgs.app/assets/social/og.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Hexsurge: a low-poly magic academy under a swirling violet tide of magic.">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hexsurge — Survive the Magic Tide">
+  <meta name="twitter:description" content="Auto-cast spells, dodge the horde, evolve your magic. Free in your browser.">
+  <meta name="twitter:image" content="https://hexsurge.ysgs.app/assets/social/og.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Hexsurge">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="assets/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body>
+  <div id="stage">
+    <canvas id="game" aria-label="Hexsurge battlefield"></canvas>
+    <div id="stick" data-no-stick-container></div>
+    <div id="ui"></div>
+    <div id="boot" role="status"><div class="boot-logo">HEXSURGE</div><div class="boot-bar"><i></i></div></div>
+  </div>
+  <noscript>Hexsurge needs JavaScript.</noscript>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
