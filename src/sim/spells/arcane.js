@@ -19,7 +19,7 @@ function barrierUpdate(ctx, dt) {
     recomputeStats(run);
   }
   if (!spell.barrier || spell.barrier.dead) {
-    spell.barrier = spawnArea(run, { x: player.x, z: player.z, radius: ctx.area(s.radius), duration: Infinity, tick: s.tick, damage: s.damage, follow: true, element: 'arcane', spellId: def.id, vfx: def.vfx });
+    spell.barrier = spawnArea(run, { x: player.x, z: player.z, radius: ctx.area(s.radius), duration: Infinity, tick: s.tick, damage: s.damage, follow: true, element: 'arcane', spellId: def.id, vfx: def.areaVfx });
   }
   spell.barrier.r = ctx.area(s.radius);
   spell.barrier.dmg = s.damage;
@@ -101,7 +101,8 @@ export const ARCANE_HANDLERS = {
     },
     cast(ctx) {
       ctx.player.shield = Math.min(ctx.player.shieldMax, ctx.player.shield + ctx.s.restore);
-      burst(ctx.run, { x: ctx.player.x, z: ctx.player.z, radius: ctx.area(ctx.s.shockRadius), damage: ctx.s.shockDamage, knock: ctx.s.knock, element: 'arcane', spellId: ctx.def.id, kind: 'nova' });
+      // The shared burst renderer scales ring thickness with radius; a bespoke fine outline keeps this arena-wide wave readable.
+      spawnArea(ctx.run, { x: ctx.player.x, z: ctx.player.z, radius: ctx.area(ctx.s.shockRadius), duration: ctx.s.shockDuration, tick: ctx.s.cooldown, damage: ctx.s.shockDamage, knock: ctx.s.knock, element: 'arcane', spellId: ctx.def.id, vfx: ctx.def.shockVfx });
     },
   },
 };

@@ -42,12 +42,15 @@ export const ARCANE_SPELLS = [
     perLevel: [{ damage: 1, shield: 3 }, { damage: 1, shield: 3 }, { damage: 1, radius: 0.02 }, { damage: 3, shield: 3 }, { damage: 3, radius: 0.1 }, { damage: 3, shield: 4 }, { damage: 3, radius: 0.1 }],
     evolution: { id: 'aegis_of_mana', passive: 'vitality', level: 3 },
     vfx: { shape: 'arcane_rune', color: '#b89dff', size: 1, glow: 1.3 },
+    areaVfx: { shape: 'arcane_ward_outline', color: '#715496', fillOpacity: 0, ringOpacity: 0 },
   },
   {
     id: 'aegis_of_mana', element: 'arcane', type: 'aura', evolvedFrom: 'mana_barrier', noCountBonus: true,
     name: T('魔力神盾', 'Aegis of Mana', '魔力の神盾'),
     desc: T('巨型符文神盾吸收範圍內敵彈，定期釋放衝擊波並補盾。', 'A vast rune aegis absorbs enemy bullets within its reach, releasing shockwaves and restoring shields.', '巨大なルーンの盾が範囲内の敵弾を吸収し、衝撃波を放ちながらシールドを回復する。'),
-    base: { cooldown: 2.4, damage: 46, radius: 13, shield: 55, restore: 18, tick: 0.5, runes: 10, runeSize: 0.55, rotation: -0.8, shockDamage: 90, shockRadius: 15, knock: 2 },
+    base: { cooldown: 2.4, damage: 46, radius: 13, shield: 55, restore: 18, tick: 0.5, runes: 10, runeSize: 0.55, rotation: -0.8, shockDamage: 90, shockRadius: 15, shockDuration: 0.45, knock: 2 },
     vfx: { shape: 'arcane_aegis', color: '#d0b2ff', size: 1, glow: 1.5 },
+    areaVfx: { shape: 'arcane_ward_outline', color: '#715496', fillOpacity: 0, ringOpacity: 0 },
+    shockVfx: { shape: 'arcane_ward_outline', color: '#a88bcc', fillOpacity: 0, ringOpacity: 0 },
   },
 ];

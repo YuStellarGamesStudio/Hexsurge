@@ -16,5 +16,6 @@ export const SHAPES = {
   arcane_planet: () => new MeshBuilder().ico(0.32, 1, W, undefined, 0.05).ring(0.38, 0.48, 16, W, { rot: [0.4, 0, 0.25] }, 0, 0.03).build(),
   arcane_rune: () => rune(),
   arcane_aegis: () => rune(true),
+  arcane_ward_outline: () => new MeshBuilder().ring(0.498, 0.5, 96, W, undefined, 0, 0.008).build(),
 };
-export const FLAT = ['arcane_rune', 'arcane_aegis'];
+export const FLAT = ['arcane_rune', 'arcane_aegis', 'arcane_ward_outline'];

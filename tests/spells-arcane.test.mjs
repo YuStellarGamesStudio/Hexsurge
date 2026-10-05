@@ -86,5 +86,10 @@ test('barrier grants and restores shields; aegis absorbs only in-radius bullets 
   assert.equal(ctx.run.eprojectiles.length, 1);
   assert.equal(ctx.run.eprojectiles[0].x, 20);
   ARCANE_HANDLERS.aegis_of_mana.cast(evolved);
-  assert.ok(ctx.run.events.some(e => e.type === 'burst' && e.r === evolved.s.shockRadius));
+  const wave = ctx.run.areas.find(a => a.vfx === evolved.def.shockVfx);
+  assert.equal(wave.r, evolved.s.shockRadius);
+  assert.equal(wave.dmg, evolved.s.shockDamage);
+  assert.ok(wave.tick > wave.life, 'shockwave hits once, not every frame');
+  assert.equal(evolved.def.areaVfx.fillOpacity, 0);
+  assert.equal(evolved.def.areaVfx.ringOpacity, 0);
 });
