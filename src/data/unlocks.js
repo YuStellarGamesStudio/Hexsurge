@@ -22,3 +22,5 @@ export const SPELL_UNLOCKS = Object.freeze({
 });
 
 export const DIFFICULTY_RULE = Object.freeze({ unlockBy: 'win' }); // clearing difficulty N (final boss) unlocks N+1
+
+export const META_RULES = Object.freeze({ leaderboardLimit: 20, minimumQuitSeconds: 15 });
