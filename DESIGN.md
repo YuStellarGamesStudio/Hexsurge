@@ -9,9 +9,9 @@
 
 **TIMELINE**：runLength=1080、bossTimes=[480,840,1080]、eliteWaveTime=300、bossWarning=6、bossCountdownShow=90、bossFightMin=45、bossFightMax=180、endlessScoreMult=2、endlessDensityPerMin=0.06、endlessHpPerMin=0.08
 
-**PLAYER**：baseHp=100、heartHp=10、moveSpeed=5.4、radius=0.5、pickupRadius=2.4、magnetPull=14、invuln=0.45、shieldRegenDelay=4、shieldRegenRate=0.25、acceleration=60、baseCritChance=0.05、baseCritMult=1.6、baseXpGain=1、baseRegen=0.35、levelUpHeal=0.12
+**PLAYER**：baseHp=100、heartHp=10、moveSpeed=5.4、radius=0.5、pickupRadius=2.4、magnetPull=14、invuln=0.7、shieldRegenDelay=4、shieldRegenRate=0.25、acceleration=60、baseCritChance=0.05、baseCritMult=1.6、baseXpGain=1、baseRegen=0.35、levelUpHeal=0.12
 
-**XP**：firstLevel=60、growth=1.105、linear=0、gemValues=[1,3,8,20,60]、mergeThreshold=120、maxLevel=60、levelUpChoices=3、luckExtraChoiceChance=0.04
+**XP**：firstLevel=60、growth=1.105、linear=0、openingFactors=[0.6,0.8]、gemValues=[1,3,8,20,60]、spellUpWeight=6、guideSpellLevel=5、mergeThreshold=120、maxLevel=60、levelUpChoices=3、luckExtraChoiceChance=0.04
 
 **COMBAT**：contactCooldown=0.7、knockbackDecay=9、damagePopupMin=1、enemyDespawnDistance=60、critLuckBonus=0.02、bossResist=0
 
@@ -22,46 +22,46 @@
 ### 1.1 經驗曲線（升級所需經驗）
 | 等級 | 所需經驗 | 累計 |
 |---|---|---|
-| 1→2 | 60 | 60 |
-| 2→3 | 66 | 126 |
-| 3→4 | 73 | 199 |
-| 4→5 | 81 | 280 |
-| 5→6 | 89 | 369 |
-| 6→7 | 99 | 468 |
-| 7→8 | 109 | 577 |
-| 8→9 | 121 | 698 |
-| 9→10 | 133 | 831 |
-| 10→11 | 147 | 978 |
-| 11→12 | 163 | 1141 |
-| 12→13 | 180 | 1321 |
-| 13→14 | 199 | 1520 |
-| 14→15 | 220 | 1740 |
-| 15→16 | 243 | 1983 |
-| 16→17 | 268 | 2251 |
-| 17→18 | 296 | 2547 |
-| 18→19 | 328 | 2875 |
-| 19→20 | 362 | 3237 |
-| 20→21 | 400 | 3637 |
-| 21→22 | 442 | 4079 |
-| 22→23 | 488 | 4567 |
-| 23→24 | 540 | 5107 |
-| 24→25 | 596 | 5703 |
-| 25→26 | 659 | 6362 |
-| 26→27 | 728 | 7090 |
-| 27→28 | 805 | 7895 |
-| 28→29 | 889 | 8784 |
-| 29→30 | 982 | 9766 |
-| 30→31 | 1086 | 10852 |
-| 31→32 | 1200 | 12052 |
-| 32→33 | 1326 | 13378 |
-| 33→34 | 1465 | 14843 |
-| 34→35 | 1618 | 16461 |
-| 35→36 | 1788 | 18249 |
-| 36→37 | 1976 | 20225 |
-| 37→38 | 2184 | 22409 |
-| 38→39 | 2413 | 24822 |
-| 39→40 | 2666 | 27488 |
-| 40→41 | 2946 | 30434 |
+| 1→2 | 36 | 36 |
+| 2→3 | 53 | 89 |
+| 3→4 | 73 | 162 |
+| 4→5 | 81 | 243 |
+| 5→6 | 89 | 332 |
+| 6→7 | 99 | 431 |
+| 7→8 | 109 | 540 |
+| 8→9 | 121 | 661 |
+| 9→10 | 133 | 794 |
+| 10→11 | 147 | 941 |
+| 11→12 | 163 | 1104 |
+| 12→13 | 180 | 1284 |
+| 13→14 | 199 | 1483 |
+| 14→15 | 220 | 1703 |
+| 15→16 | 243 | 1946 |
+| 16→17 | 268 | 2214 |
+| 17→18 | 296 | 2510 |
+| 18→19 | 328 | 2838 |
+| 19→20 | 362 | 3200 |
+| 20→21 | 400 | 3600 |
+| 21→22 | 442 | 4042 |
+| 22→23 | 488 | 4530 |
+| 23→24 | 540 | 5070 |
+| 24→25 | 596 | 5666 |
+| 25→26 | 659 | 6325 |
+| 26→27 | 728 | 7053 |
+| 27→28 | 805 | 7858 |
+| 28→29 | 889 | 8747 |
+| 29→30 | 982 | 9729 |
+| 30→31 | 1086 | 10815 |
+| 31→32 | 1200 | 12015 |
+| 32→33 | 1326 | 13341 |
+| 33→34 | 1465 | 14806 |
+| 34→35 | 1618 | 16424 |
+| 35→36 | 1788 | 18212 |
+| 36→37 | 1976 | 20188 |
+| 37→38 | 2184 | 22372 |
+| 38→39 | 2413 | 24785 |
+| 39→40 | 2666 | 27451 |
+| 40→41 | 2946 | 30397 |
 
 節奏目標：首次升級 30–45 秒；前 5 分鐘 8–10 次（實測 ≈ 12–16，因無頭機器人專注擊殺）；一局 30–40 次，護欄 ≤ 50（`node tools/balance.mjs pace`）。
 
@@ -310,7 +310,7 @@
 | 7 | 3 | 28 | 10.12 | 28 | 7 | 0.5 | 6 | 0.4 | 1.2 |
 | 8 | 3 | 31 | 10.22 | 28 | 7 | 0.5 | 6 | 0.4 | 1.2 |
 
-進化形數值：cooldown=2.4、damage=46、radius=13、shield=55、restore=18、tick=0.5、runes=10、runeSize=0.55、rotation=-0.8、shockDamage=90、shockRadius=15、knock=2（類型 aura）
+進化形數值：cooldown=2.4、damage=46、radius=13、shield=55、restore=18、tick=0.5、runes=10、runeSize=0.55、rotation=-0.8、shockDamage=90、shockRadius=15、shockDuration=0.45、knock=2（類型 aura）
 
 ### Thorn Field（thorn_field）— nature / area
 進化：**World Roots（world_roots）** = thorn_field Lv 8 + magnet_charm ≥ Lv 2
@@ -464,20 +464,20 @@
 | id | 地圖 | 半徑 | 速度 | 接觸傷害 | HP(階0/1/2) | 狂暴血量 | 招式 |
 |---|---|---|---|---|---|---|---|
 | fallen_archmage | academy | 1.4 | 2.4 | 18 | 26000 / 60000 / 160000 | 0.3 | arcane_rings, rune_seals, summon_constructs, barrage_spiral |
-| rotwood_king | forest | 1.9 | 1.8 | 14 | 35000 / 55000 / 150000 | 0.3 | root_eruption, spore_cloud, seed_barrage, treant_call |
-| rimewing | tundra | 1.7 | 3.2 | 4 | 10500 / 42000 / 160000 | 0.3 | frost_breath, icicle_rain, blizzard_dash, ice_golems |
-| ignarok | abyss | 2.2 | 1.6 | 30 | 26000 / 40000 / 150000 | 0.3 | ground_slam, lava_pools, fire_ring_volley, magma_bombers |
-| nullgaze | void | 1.6 | 2 | 26 | 20000 / 60000 / 95000 | 0.3 | gravity_wells, gaze_sweep, rift_summons, void_spiral |
+| rotwood_king | forest | 1.9 | 1.8 | 14 | 32000 / 55000 / 150000 | 0.3 | root_eruption, spore_cloud, seed_barrage, treant_call |
+| rimewing | tundra | 1.7 | 3.2 | 4 | 23000 / 55000 / 160000 | 0.3 | frost_breath, icicle_rain, blizzard_dash, ice_golems |
+| ignarok | abyss | 2.2 | 1.6 | 30 | 19000 / 40000 / 150000 | 0.3 | ground_slam, lava_pools, fire_ring_volley, magma_bombers |
+| nullgaze | void | 1.6 | 2 | 26 | 23000 / 48000 / 120000 | 0.3 | gravity_wells, gaze_sweep, rift_summons, void_spiral |
 
 **fallen_archmage attacks**：`{"movement":{"distance":10,"teleportCd":11,"teleportWarn":1,"teleportRadius":12},"arcane_rings":{"cooldown":4.8,"warn":0.9,"count":16,"extra":4,"gap":3,"speed":5.6,"damage":11,"life":6,"radius":0.32},"rune_seals":{"cooldown":6.4,"warn":1.2,"count":3,"radius":2.2,"spacing":4.8,"damage":19},"summon_constructs":{"cooldown":15,"count":3,"ids":["imp","ghoul","revenant"]},"barrage_spiral":{"cooldown":10,"duration":3.2,"interval":0.22,"rotation":0.32,"arms":2,"extra":1,"speed":6.2,"damage":10,"life":5,"radius":0.28}}`
 
 **rotwood_king attacks**：`{"root_eruption":{"cooldown":5.8,"warn":1.4,"count":7,"spacing":2.6,"radius":1.2,"damage":8},"spore_cloud":{"cooldown":7.2,"warn":1.5,"radius":2.6,"life":6,"tick":0.8,"damage":2,"slow":0.12,"offset":4.5},"seed_barrage":{"cooldown":4.8,"count":7,"extra":2,"spread":1.5,"speed":5.2,"damage":5,"life":6,"radius":0.32},"treant_call":{"cooldown":16,"count":2,"finalCount":4,"ids":["slime","ghoul"]}}`
 
-**rimewing attacks**：`{"movement":{"distance":7,"strafe":0.7},"frost_breath":{"cooldown":5.5,"warn":1.4,"rows":5,"spacing":2.3,"radius":1.1,"width":0.45,"damage":3,"bullets":5,"extra":2,"spread":0.9,"speed":5.5,"life":5},"icicle_rain":{"cooldown":7,"warn":1.5,"count":5,"radius":1.3,"spread":6,"damage":3},"blizzard_dash":{"cooldown":9,"warn":1.2,"duration":0.9,"speed":18,"extension":5,"spacing":2,"radius":1.2},"ice_golems":{"cooldown":17,"count":2,"finalCount":4,"id":"fangwolf"}}`
+**rimewing attacks**：`{"movement":{"distance":5.5,"strafe":0.4},"frost_breath":{"cooldown":5.5,"warn":1.4,"rows":5,"spacing":2.3,"radius":1.1,"width":0.45,"damage":3,"bullets":5,"extra":2,"spread":0.9,"speed":5.5,"life":5},"icicle_rain":{"cooldown":7,"warn":1.5,"count":5,"radius":1.3,"spread":6,"damage":3},"blizzard_dash":{"cooldown":9,"warn":1.2,"duration":0.9,"speed":18,"extension":5,"spacing":2,"radius":1.2},"ice_golems":{"cooldown":17,"count":2,"finalCount":4,"id":"fangwolf"}}`
 
 **ignarok attacks**：`{"stopDistance":7,"windupSpeed":0.2,"ground_slam":{"cooldown":8,"warn":1.4,"radius":4,"damage":16,"count":18,"extra":6,"gap":4,"speed":4.5,"life":6,"bulletDamage":6,"bulletRadius":0.32},"lava_pools":{"cooldown":6.5,"warn":1.4,"radius":2.1,"life":5,"damage":4,"tick":0.9,"count":2,"extra":1,"spacing":4},"fire_ring_volley":{"cooldown":6,"warn":1.1,"count":22,"extra":6,"gap":5,"speed":5.5,"life":5,"damage":5,"bulletRadius":0.3,"volleys":2,"interval":0.6,"rotation":0.12},"magma_bombers":{"cooldown":17,"warn":1.4,"radius":1.8,"spawnRadius":4,"count":2,"eliteCount":2},"bulletSize":0.7,"bulletGlow":1.7}`
 
-**nullgaze attacks**：`{"orbitDistance":11,"orbitRate":0.22,"windupSpeed":0.25,"gravity_wells":{"cooldown":8.5,"warn":1.4,"radius":3.5,"coreRadius":1.2,"life":4,"damage":3,"tick":1,"pull":1.2,"count":2,"extra":1,"spacing":6},"gaze_sweep":{"cooldown":9,"warn":1.5,"radius":0.75,"step":1.4,"length":11,"slices":5,"arc":0.85,"interval":0.2,"active":0.16,"damage":4,"speed":6,"bulletRadius":0.26,"life":4,"extra":1},"rift_summons":{"cooldown":16,"warn":1.4,"radius":2,"spawnRadius":4,"count":3,"eliteCount":1},"void_spiral":{"cooldown":7,"duration":2.4,"interval":0.26,"arms":3,"extra":1,"rotation":0.3,"speed":5,"life":5,"damage":5,"bulletRadius":0.26},"bulletSize":0.65,"bulletGlow":1.8}`
+**nullgaze attacks**：`{"orbitDistance":7,"orbitRate":0.22,"windupSpeed":0.25,"gravity_wells":{"cooldown":8.5,"warn":1.4,"radius":3.5,"coreRadius":1.2,"life":4,"damage":3,"tick":1,"pull":1.2,"count":2,"extra":1,"spacing":6},"gaze_sweep":{"cooldown":9,"warn":1.5,"radius":0.75,"step":1.4,"length":11,"slices":5,"arc":0.85,"interval":0.2,"active":0.16,"damage":4,"speed":6,"bulletRadius":0.26,"life":4,"extra":1},"rift_summons":{"cooldown":16,"warn":1.4,"radius":2,"spawnRadius":4,"count":3,"eliteCount":1},"void_spiral":{"cooldown":7,"duration":2.4,"interval":0.26,"arms":3,"extra":1,"rotation":0.3,"speed":5,"life":5,"damage":5,"bulletRadius":0.26},"bulletSize":0.65,"bulletGlow":1.8}`
 
 ## 10. 地圖（5）
 | id | Boss | 解鎖 | 加速度 | 障礙數 | 危害 | 主題權重 |
@@ -485,7 +485,7 @@
 | academy | fallen_archmage | 初始 | 60 | 12 | [{"kind":"rune_pylon","every":22,"count":2,"radius":4.2,"warn":1.6,"active":0.5,"damage":14}] | {"swarm":1,"fast":1,"tank":1,"ranged":1.2,"split":1,"exploder":1,"flyer":1,"buffer":1,"healer":1,"summoner":1.1} |
 | forest | rotwood_king | {"kind":"bossKill","map":"academy"} | 60 | 20 | [{"kind":"spore_cloud","every":16,"count":2,"radius":3.6,"life":12,"drift":0.9,"damage":5,"tick":0.5}] | {"swarm":1.3,"fast":1,"tank":0.9,"ranged":0.9,"split":1.6,"exploder":1,"flyer":1.2,"buffer":0.8,"healer":1.2,"summoner":1.6} |
 | tundra | rimewing | {"kind":"bossKill","map":"forest"} | 14 | 16 | [{"kind":"blizzard","every":20,"duration":5,"force":3.2,"warn":1.8}] | {"swarm":1,"fast":1.5,"tank":1.3,"ranged":1,"split":0.8,"exploder":0.8,"flyer":1,"buffer":1.2,"healer":1,"summoner":0.9} |
-| abyss | ignarok | {"kind":"bossKill","map":"tundra"} | 60 | 16 | [{"kind":"lava_burst","every":6,"count":3,"radius":2.6,"warn":1.4,"damage":22}] | {"swarm":1,"fast":0.9,"tank":1.2,"ranged":1.2,"split":0.8,"exploder":1.8,"flyer":0.9,"buffer":1.2,"healer":0.7,"summoner":0.9} |
+| abyss | ignarok | {"kind":"bossKill","map":"tundra"} | 60 | 16 | [{"kind":"lava_burst","every":8,"count":3,"radius":2.6,"warn":1.6,"damage":18}] | {"swarm":1,"fast":0.9,"tank":1.2,"ranged":1.2,"split":0.8,"exploder":1.8,"flyer":0.9,"buffer":1.2,"healer":0.7,"summoner":0.9} |
 | void | nullgaze | {"kind":"bossKill","map":"abyss"} | 60 | 14 | [{"kind":"void_rift","every":24,"count":1,"radius":7,"life":9,"pull":4.5,"damage":12,"tick":0.4}] | {"swarm":0.9,"fast":1.1,"tank":1,"ranged":1.1,"split":1.4,"exploder":1,"flyer":1.6,"buffer":1.2,"healer":1.5,"summoner":1.2} |
 
 ## 11. 計分與成績榜
