@@ -103,7 +103,7 @@ function candidateChoices(run) {
   }
   for (const s of spells) {
     if (s.evolved || s.level >= MAX_SPELL_LEVEL) continue;
-    out.push({ kind: 'spell_up', id: s.def.id, level: s.level + 1, weight: 3 + s.level * 0.25 });
+    out.push({ kind: 'spell_up', id: s.def.id, level: s.level + 1, weight: XP.spellUpWeight + s.level * 0.5 });
   }
   if (slotsFree) {
     for (const def of BASE_SPELLS) {
@@ -125,6 +125,14 @@ export function generateChoices(run) {
   const ready = evolutionReady(run);
   for (const s of ready.slice(0, 2)) choices.push({ kind: 'evolve', id: s.def.id, into: s.def.evolution.id, level: MAX_SPELL_LEVEL });
   const pool = candidateChoices(run);
+  // Guidance, never punishment (§3.4): once a spell is close to max level, every level-up offers the relic its evolution needs.
+  const needy = run.spells
+    .filter((s) => !s.evolved && s.def.evolution && s.level >= XP.guideSpellLevel && (run.passives[s.def.evolution.passive] ?? 0) < s.def.evolution.level)
+    .sort((a, b) => b.level - a.level)[0];
+  if (needy && choices.length < XP.levelUpChoices) {
+    const idx = pool.findIndex((c) => c.id === needy.def.evolution.passive && (c.kind === 'passive_new' || c.kind === 'passive_up'));
+    if (idx >= 0) { const [g] = pool.splice(idx, 1); choices.push({ kind: g.kind, id: g.id, level: g.level }); }
+  }
   const want = XP.levelUpChoices + (run.rng() < run.player.stats.luck * XP.luckExtraChoiceChance ? 1 : 0);
   while (choices.length < want && pool.length) {
     const pick = run.rng.weighted(pool.map((c) => [c, c.weight]));

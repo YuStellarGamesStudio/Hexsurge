@@ -43,7 +43,7 @@ export const PLAYER = Object.freeze({
   radius: 0.5,
   pickupRadius: 2.4,
   magnetPull: 14,            // gem pull speed once inside pickup radius
-  invuln: 0.45,              // i-frames after taking contact damage
+  invuln: 0.7,               // i-frames after taking damage: caps how fast a swarm can burn the player down
   shieldRegenDelay: 4,
   shieldRegenRate: 0.25,     // fraction of max shield per second after delay
   acceleration: 60,          // units/s^2 (maps may override for ice)
@@ -60,6 +60,8 @@ export const XP = Object.freeze({
   linear: 0,                 // flat add per level
   openingFactors: [0.6, 0.8], // first level-ups are cheaper so the feedback loop starts inside 30-45 s for every mage
   gemValues: [1, 3, 8, 20, 60], // tiers; renderer colours by tier
+  spellUpWeight: 6,           // card weight of upgrading an owned spell (new spells weigh 1.6, relics 1.1-1.7)
+  guideSpellLevel: 5,         // from this spell level on, level-ups always offer the relic the spell's evolution needs
   mergeThreshold: 120,       // merge gems when this many exist
   maxLevel: 60,
   levelUpChoices: 3,

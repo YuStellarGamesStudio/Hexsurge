@@ -40,7 +40,7 @@ export function botPick(run, strategy = 'focus') {
   // 'focus' models a competent player: take evolutions, chase the passive a nearly-maxed spell needs,
   // concentrate upgrades on a few spells (cap 4 by default), then fall back to generic power passives.
   // Before the first evolution a focused player commits to one or two spells; afterwards widens to four.
-  const maxSpells = strategy === 'wide' ? 6 : run.stats.evolutions ? 4 : 2;
+  const maxSpells = strategy === 'wide' ? 6 : run.stats.evolutions ? 5 : 3;
   const wanted = new Set();
   for (const s of run.spells) {
     const evo = s.def.evolution;

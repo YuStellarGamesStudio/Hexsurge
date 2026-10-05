@@ -40,7 +40,7 @@ export const MAPS = Object.freeze([
     desc: T('玄武岩黑與熔岩橙。地面週期性噴發熔岩，預警圈消失後即造成重傷。', 'Basalt black and lava orange. The ground erupts periodically; when the warning ring fades, it deals heavy damage.', '玄武岩の黒と溶岩のオレンジ。地面が周期的に噴火し、警告円が消えると大ダメージ。'),
     palette: { ground: '#2a2420', ground2: '#3d322b', accent: '#ff7a1a', fog: '#2a1410', sky: ['#1a0a08', '#6a2a10'], glow: '#ff7a1a', prop: '#4a3a30', prop2: '#ff7a1a' },
     accel: 60, obstacleCount: 16, obstacleRadius: [0.9, 1.8], obstacleKinds: ['basalt', 'lavarock', 'spire'],
-    hazards: [{ kind: 'lava_burst', every: 6, count: 3, radius: 2.6, warn: 1.4, damage: 22 }],
+    hazards: [{ kind: 'lava_burst', every: 8, count: 3, radius: 2.6, warn: 1.6, damage: 18 }],
     themeWeights: { swarm: 1, fast: 0.9, tank: 1.2, ranged: 1.2, split: 0.8, exploder: 1.8, flyer: 0.9, buffer: 1.2, healer: 0.7, summoner: 0.9 },
     music: ['abyss-1', 'abyss-2'],
   },
