@@ -13,13 +13,20 @@ export function build(ctx) {
   const owned = [];
   const add = (b, m = matte()) => { const mesh = ctx.add(new Mesh({ geometry: b.build(), material: m })); owned.push(mesh); };
   const ground = new MeshBuilder().disc(ARENA.radius + 6, 96, '#344039', undefined, 0.04);
-  const wood = new MeshBuilder(), moss = new MeshBuilder(), caps = new MeshBuilder();
+  const wood = new MeshBuilder(), moss = new MeshBuilder(), caps = new MeshBuilder(), gills = new MeshBuilder();
   const tree = (x, z, r, h, seed) => {
     wood.cylinder(r, 0.2, 7, '#334137', { pos: [x, 0, z] });
     wood.cone(r * 0.65, h, 5, '#4a4942', { pos: [x, 0, z], rot: [0, seed, 0] }, 0.18, r * 0.2);
     for (let k = 0; k < 3; k++) { const a = seed + k * 2.1; wood.cone(r * 0.2, h * 0.5, 4, '#48483e', { pos: [x, h * (0.4 + k * 0.16), z], rot: [0.7, a, 0] }, 0.12, 0.04); wood.box(r * 1.3, 0.12, r * 0.22, '#45483e', { pos: [x + Math.cos(a) * r * 0.45, 0.08, z + Math.sin(a) * r * 0.45], rot: [0, -a, 0] }); }
   };
-  const mushroom = (x, z, r, h) => { wood.cone(r * 0.25, h, 6, '#688476', { pos: [x, 0, z] }, 0.05, r * 0.17); caps.cone(r, r * 0.45, 7, '#ffffff', { pos: [x, h, z] }, 0.15, r * 0.12); };
+  const mushroom = (x, z, r, h) => {
+    wood.cone(r * 0.25, h, 6, '#688476', { pos: [x, 0, z] }, 0.05, r * 0.17);
+    caps.cone(r, r * 0.45, 7, '#416e60', { pos: [x, h, z] }, 0.18, r * 0.12);
+    for (let k = 0; k < 5; k++) {
+      const a = k * Math.PI * 0.4, d = r * 0.42;
+      gills.ico(r * 0.07, 0, '#ffffff', { pos: [x + Math.cos(a) * d, h + r * 0.34, z + Math.sin(a) * d], scale: [1, 0.4, 1] });
+    }
+  };
   for (let i = 0; i < 150; i++) {
     const a = i * 2.399963, r = Math.sqrt((i + 0.5) / 150) * 46, x = Math.cos(a) * r, z = Math.sin(a) * r;
     ground.disc(0.9 + i % 4 * 0.65, 7, i % 2 ? '#37473b' : '#303d35', { pos: [x, 0.01, z] }, 0.03);
@@ -31,7 +38,7 @@ export function build(ctx) {
     else if (o.kind === 'mushroom') { wood.cylinder(o.r, 0.18, 7, '#3d4b40', { pos: [o.x, 0, o.z] }); mushroom(o.x, o.z, o.r, o.r * 1.1); }
     else { wood.cone(o.r, o.r * 1.3, 7, '#53534a', { pos: [o.x, 0, o.z] }, 0.12, o.r * 0.86); moss.disc(o.r * 0.75, 7, '#777765', { pos: [o.x, o.r * 1.3 + 0.015, o.z] }); moss.ring(o.r * 0.4, o.r * 0.45, 7, '#575d4e', { pos: [o.x, o.r * 1.3 + 0.02, o.z] }); }
   }
-  add(ground); add(wood); add(moss); add(caps, glow('#559b88', 0.6));
+  add(ground); add(wood); add(moss); add(caps); add(gills, glow('#6dbda2', 0.45));
   const flies = new InstancePool(ctx.scene, new MeshBuilder().ico(0.035, 0, '#ffffff').build(), glow('#87d9b0', 1.1), 80);
   const spores = new InstancePool(ctx.scene, new MeshBuilder().ico(0.06, 0, '#ffffff').build(), glow('#649b88', 0.45, 0.38), 96);
   return {

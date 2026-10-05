@@ -13,7 +13,9 @@ run.player.god = true;
 const types = ['imp', 'stone_brute', 'cult_archer'];
 for (let i = 0; i < 30; i++) {
   const x = (i % 6 - 2.5) * 2.15, z = Math.floor(i / 6) * 2 - 4;
-  spawnEnemy(run, ENEMY_BY_ID[types[i % types.length]], x, z);
+  const enemy = spawnEnemy(run, ENEMY_BY_ID[types[i % types.length]], x, z);
+  // The lab freezes simulation, so bypass the battle's quarter-second spawn growth.
+  enemy.age = 1;
 }
 const view = new BattleView(game, run);
 await view.init();

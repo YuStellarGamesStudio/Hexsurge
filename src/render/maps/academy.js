@@ -5,19 +5,27 @@ import { MeshBuilder } from '../geo.js';
 import { InstancePool } from '../pool.js';
 import { matte, glow } from '../materials.js';
 export const look = {
-  ambient: 0.32, sun: { dir: [-0.4, 1, 0.3], color: [1, 0.93, 0.8], intensity: 1.25 },
-  fog: { color: [0.37, 0.37, 0.47], near: 48, far: 105 }, bloom: { strength: 0.45, threshold: 1.15 }, exposure: 0.9,
-  background: { zenith: [0.13, 0.17, 0.34], horizon: [0.55, 0.52, 0.57], ground: [0.18, 0.18, 0.24] },
+  ambient: 0.3, sun: { dir: [-0.4, 1, 0.3], color: [1, 0.96, 0.9], intensity: 1.3 },
+  fog: { color: [0.23, 0.25, 0.39], near: 55, far: 115 }, bloom: { strength: 0.45, threshold: 1.15 }, exposure: 0.9,
+  background: { zenith: [0.1, 0.14, 0.32], horizon: [0.39, 0.42, 0.57], ground: [0.13, 0.15, 0.24] },
 };
 export function build(ctx) {
   const owned = [];
   const add = (b, m = matte()) => { const mesh = ctx.add(new Mesh({ geometry: b.build(), material: m })); owned.push(mesh); return mesh; };
   const ground = new MeshBuilder().disc(ARENA.radius + 4, 96, '#a09b8d', undefined, 0.025);
   const inlay = new MeshBuilder();
-  for (let r = 8; r < ARENA.radius; r += 8) inlay.ring(r, r + 0.055, 96, '#858581', undefined, 0, 0.014);
+  for (let r = 8; r < ARENA.radius; r += 8) {
+    inlay.ring(r, r + 0.09, 96, '#62687e', undefined, 0, 0.014);
+    inlay.ring(r + 0.21, r + 0.24, 96, '#777d8b', undefined, 0, 0.014);
+  }
+  for (let i = 0; i < 12; i++) {
+    const a = i * Math.PI / 6, x = Math.cos(a) * 8.5, z = Math.sin(a) * 8.5;
+    inlay.box(0.07, 0.02, 0.6, '#626982', { pos: [x, 0.02, z], rot: [0, -a, 0] });
+    inlay.box(0.35, 0.02, 0.055, '#626982', { pos: [x, 0.02, z], rot: [0, -a, 0] });
+  }
   for (let x = -44; x <= 44; x += 4) for (let z = -44; z <= 44; z += 4) {
     if (Math.hypot(x, z) > ARENA.radius - 2) continue;
-    ground.box(3.96, 0.025, 3.96, ((x + z) % 8 === 0) ? '#aaa497' : '#a5a092', { pos: [x, -0.006, z] }, 0.015);
+    ground.box(3.96, 0.025, 3.96, ((x + z) % 8 === 0) ? '#a6a295' : '#989995', { pos: [x, -0.006, z] }, 0.025);
     if (Math.hypot(x, z) > 12 && (x * 3 + z) % 16 === 0) inlay.box(0.035, 0.018, 0.65, '#707789', { pos: [x, 0.024, z], rot: [0, Math.PI / 4, 0] });
   }
   ground.ring(ARENA.radius, ARENA.radius + 2, 96, '#b9b09b', undefined, 0.05, 0.035);
