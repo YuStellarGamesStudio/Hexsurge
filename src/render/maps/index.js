@@ -4,7 +4,18 @@
 //   build(ctx) -> { update(t, dt, run), dispose() }   adds ground + props + obstacle visuals to ctx.scene
 //     ctx = { scene, run, map, palette, obstacles, rng, add(obj), matte, glow, MeshBuilder, InstancePool }
 import * as fallback from './default.js';
+import * as abyss from './abyss.js';
+import * as voidIsles from './void.js';
+import * as academy from './academy.js';
+import * as forest from './forest.js';
+import * as tundra from './tundra.js';
 
 const registry = {};
 export function registerMap(id, mod) { registry[id] = mod; }
 export function getMapModule(id) { return registry[id] ?? fallback; }
+
+registerMap('abyss', abyss);
+registerMap('void', voidIsles);
+registerMap('academy', academy);
+registerMap('forest', forest);
+registerMap('tundra', tundra);
