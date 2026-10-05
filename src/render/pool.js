@@ -17,7 +17,8 @@ export class InstancePool {
   begin() { this.used = 0; }
   /** Adds one instance; returns false when the pool is full. Rotation is about Y (and optional X tilt). */
   push(x, y, z, sx, sy, sz, rotY = 0, r = 1, g = 1, b = 1, tiltX = 0) {
-    if (this.used >= this.capacity) return false;
+    // One malformed entity (NaN from an upstream bug) must never take the whole renderer down.
+    if (this.used >= this.capacity || !(Number.isFinite(x + y + z + sx + sy + sz + rotY))) return false;
     const i = this.used++;
     pos.set(x, y, z);
     if (tiltX) rot.setFromEuler(tiltX, rotY, 0); else rot.setFromEuler(0, rotY, 0);
