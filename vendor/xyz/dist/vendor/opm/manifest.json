@@ -1,0 +1,9 @@
+{
+  "name": "OPM.js",
+  "version": "1.11.1",
+  "release": "https://github.com/JS-PACKAGE/OPM.js/releases/tag/v1.11.1",
+  "archive": "https://github.com/JS-PACKAGE/OPM.js/releases/download/v1.11.1/opm.js-1.11.1.tgz",
+  "sha256": "4f5ccfcc499c5100645bba97caf9a80d6d2a6e5229c404fc11006ee1a785d58e",
+  "checksums": "https://api.github.com/repos/JS-PACKAGE/OPM.js/releases/assets/607739972",
+  "contents": "Complete official dist/ and LICENSE, without modifications"
+}
